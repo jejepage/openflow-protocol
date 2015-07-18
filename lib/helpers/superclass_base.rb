@@ -1,4 +1,5 @@
 require 'bindata'
+require 'bindata-contrib'
 
 class SuperclassBase < BinData::Record
   attr_reader :type_str

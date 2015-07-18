@@ -1,7 +1,5 @@
 require 'English'
-require_relative '../helpers/enum'
-require_relative '../helpers/mac_address'
-require_relative '../helpers/ip_address'
+require 'bindata-contrib'
 require_relative 'port_number'
 
 class OFMatch < BinData::Record
@@ -84,8 +82,8 @@ class OFMatch < BinData::Record
   }, initial_value: 0
   uint16 :padding2
   hide :padding2
-  ip_address :ip_source
-  ip_address :ip_destination
+  ipv4_address :ip_source
+  ipv4_address :ip_destination
   uint16 :source_port, initial_value: 0
   uint16 :destination_port, initial_value: 0
 end

@@ -1,5 +1,4 @@
 require_relative '../structs/match'
-require_relative '../helpers/flags'
 
 class OFTableStatistics < BinData::Record
   TABLE_IDS = {emergency: 0xfe, all: 0xff}

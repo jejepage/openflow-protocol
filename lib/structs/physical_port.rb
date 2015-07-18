@@ -1,5 +1,5 @@
+require 'bindata-contrib'
 require_relative 'port_number'
-require_relative '../helpers/mac_address'
 
 class OFPhysicalPort < BinData::Record
   CONFIG = [

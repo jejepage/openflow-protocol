@@ -1,3 +1,4 @@
+require 'packet-protocols'
 require_relative 'message'
 
 class OFPacketIn < OFMessage
@@ -13,5 +14,10 @@ class OFPacketIn < OFMessage
 
   def body_length
     10 + data.length
+  end
+
+  def parsed_data
+    @parsed_data ||= Ethernet.read(data)
+    @parsed_data
   end
 end

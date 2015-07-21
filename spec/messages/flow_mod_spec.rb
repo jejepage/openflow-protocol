@@ -83,7 +83,7 @@ describe OFFlowMod do
           ip_tos: true,
           ip_source_all: true,
           ip_destination: 16,
-          destination_port: true
+          source_port: true
         },
         mac_protocol: :ip,
         ip_protocol: :tcp,

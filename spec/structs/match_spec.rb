@@ -100,4 +100,14 @@ describe OFMatch do
     expect(match.source_port).to eq(0)
     expect(match.destination_port).to eq(3000)
   end
+  it 'should initialize with wildcards as array' do
+    match = OFMatch.new(
+      wildcards: [:in_port, :mac_source, :mac_destination]
+    )
+    expect(match.wildcards).to eq(
+      in_port: true,
+      mac_source: true,
+      mac_destination: true
+    )
+  end
 end

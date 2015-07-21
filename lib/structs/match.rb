@@ -48,6 +48,7 @@ class OFMatch < BinData::Record
     end
 
     def set(value)
+      value = Hash[value.map { |v| [v, true] }] if value.is_a?(Array)
       self.flags = value.inject(0) do |memo, (key, val)|
         memo |
           case key

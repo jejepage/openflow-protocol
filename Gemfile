@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-gem 'bindata'
-gem 'bindata-contrib', '0.0.2'
-gem 'packet-protocols', '0.0.4'
-gem 'rspec'
+gem 'packet-protocols', '~> 0.1'
+group :test do
+  gem 'rspec', '~> 3.2'
+end

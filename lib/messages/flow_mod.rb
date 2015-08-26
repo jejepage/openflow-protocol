@@ -7,7 +7,7 @@ class OFFlowMod < OFMessage
   uint16 :idle_timeout, initial_value: 0
   uint16 :hard_timeout, initial_value: 0
   uint16 :priority, initial_value: 0
-  uint32 :buffer_id, initial_value: 0xffffffff
+  enum32 :buffer_id, list: {none: 0xffffffff}, initial_value: -> { :none }
   of_port_number :out_port, initial_value: (lambda do
     /^delete/ =~ command.to_s ? :none : 0
   end)

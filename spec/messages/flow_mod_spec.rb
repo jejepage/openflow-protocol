@@ -65,7 +65,7 @@ describe OFFlowMod do
     expect(msg.idle_timeout).to eq(0)
     expect(msg.hard_timeout).to eq(0)
     expect(msg.priority).to eq(0)
-    expect(msg.buffer_id).to eq(0xffffffff)
+    expect(msg.buffer_id).to eq(:none)
     expect(msg.out_port).to eq(0)
     expect(msg.flags).to be_empty
     expect(msg.actions).to be_empty
@@ -131,7 +131,7 @@ describe OFFlowMod do
     expect(msg.idle_timeout).to eq(0)
     expect(msg.hard_timeout).to eq(0)
     expect(msg.priority).to eq(0)
-    expect(msg.buffer_id).to eq(0xffffffff)
+    expect(msg.buffer_id).to eq(:none)
     expect(msg.out_port).to eq(:none)
     expect(msg.flags).to be_empty
     expect(msg.actions).to be_empty

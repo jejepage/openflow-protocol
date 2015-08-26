@@ -15,7 +15,7 @@ class OFMessage < SuperclassBase
   HEADER_LENGTH = 8
   TYPES = [
     :hello,
-    :error, # TODO
+    :error,
     :echo_request,
     :echo_reply,
     :vendor,

@@ -61,6 +61,18 @@ class OFMatch < BinData::Record
     end
   end
 
+  def self.create(options = {})
+    unless options[:wildcards]
+      options[:wildcards] = {}
+      %i(in_port vlan_id mac_source mac_destination mac_protocol ip_protocol source_port destination_port ip_source ip_destination vlan_pcp ip_tos).each do |flag|
+        wild_flag = flag
+        wild_flag = "#{flag}_all".to_sym if %i(ip_source ip_destination).include? flag
+        options[:wildcards][wild_flag] = true unless options[flag]
+      end
+    end
+    self.new options
+  end
+
   endian :big
   wildcards :wildcards
   of_port_number :in_port, initial_value: 0

@@ -85,7 +85,7 @@ describe OFFlowMod do
           ip_destination: 16,
           source_port: true
         },
-        mac_protocol: :ip,
+        mac_protocol: :ipv4,
         ip_protocol: :tcp,
         ip_destination: '192.168.0.2',
         destination_port: 3000

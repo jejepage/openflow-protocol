@@ -34,7 +34,7 @@ describe OFMatch do
     expect(match.mac_destination).to eq('00:00:00:00:00:00')
     expect(match.vlan_id).to eq(0xffff)
     expect(match.vlan_pcp).to eq(0)
-    expect(match.mac_protocol).to eq(:ip)
+    expect(match.mac_protocol).to eq(:ipv4)
     expect(match.ip_tos).to eq(0)
     expect(match.ip_protocol).to eq(:tcp)
     expect(match.ip_source).to eq('0.0.0.0')
@@ -71,7 +71,7 @@ describe OFMatch do
         ip_destination: 16,
         destination_port: true
       },
-      mac_protocol: :ip,
+      mac_protocol: :ipv4,
       ip_protocol: :tcp,
       ip_destination: '192.168.0.2',
       destination_port: 3000
@@ -92,7 +92,7 @@ describe OFMatch do
     expect(match.mac_destination).to eq('00:00:00:00:00:00')
     expect(match.vlan_id).to eq(0xffff)
     expect(match.vlan_pcp).to eq(0)
-    expect(match.mac_protocol).to eq(:ip)
+    expect(match.mac_protocol).to eq(:ipv4)
     expect(match.ip_tos).to eq(0)
     expect(match.ip_protocol).to eq(:tcp)
     expect(match.ip_source).to eq('0.0.0.0')
@@ -110,4 +110,34 @@ describe OFMatch do
       mac_destination: true
     )
   end
+  # it 'should initialize wildcards based on matching values given' do
+  #   match = OFMatch.new(
+  #     mac_source: '00:00:00:00:00:01',
+  #     mac_destination: '00:00:00:00:00:02',
+  #     mac_protocol: :ip,
+  #     ip_protocol: :udp,
+  #     ip_source: '10.0.0.1',
+  #     ip_destination: '10.0.0.2'
+  #   )
+  #   expect(match.wildcards).to eq(
+  #     in_port: true,
+  #     vlan_id: true,
+  #     source_port: true,
+  #     destination_port: true,
+  #     vlan_pcp: true,
+  #     ip_tos: true
+  #   )
+  #   expect(match.in_port).to eq(0)
+  #   expect(match.mac_source).to eq('00:00:00:00:00:01')
+  #   expect(match.mac_destination).to eq('00:00:00:00:00:02')
+  #   expect(match.vlan_id).to eq(0xffff)
+  #   expect(match.vlan_pcp).to eq(0)
+  #   expect(match.mac_protocol).to eq(:ipv4)
+  #   expect(match.ip_tos).to eq(0)
+  #   expect(match.ip_protocol).to eq(:udp)
+  #   expect(match.ip_source).to eq('10.0.0.1')
+  #   expect(match.ip_destination).to eq('10.0.0.2')
+  #   expect(match.source_port).to eq(0)
+  #   expect(match.destination_port).to eq(0)
+  # end
 end

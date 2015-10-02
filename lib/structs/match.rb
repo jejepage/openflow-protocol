@@ -71,7 +71,7 @@ class OFMatch < BinData::Record
   uint8 :padding
   hide :padding
   enum16 :mac_protocol, list: {
-    ip: 0x0800,
+    ipv4: 0x0800,
     arp: 0x0806,
     vlan: 0x8100
   }, initial_value: 0

@@ -41,4 +41,13 @@ describe OFEchoRequest do
     expect(msg.xid).to eq(0)
     expect(msg.data.length).to eq(2)
   end
+  it 'should convert to OFEchoReply' do
+    msg = OFEchoRequest.new(xid: 1, data: [10, 20].pack('C*'))
+    msg_reply = msg.to_reply
+    expect(msg_reply.version).to eq(OFMessage::OFP_VERSION)
+    expect(msg_reply.type).to eq(:echo_reply)
+    expect(msg.len).to eq(msg_reply.len)
+    expect(msg.xid).to eq(msg_reply.xid)
+    expect(msg.data).to eq(msg_reply.data)
+  end
 end

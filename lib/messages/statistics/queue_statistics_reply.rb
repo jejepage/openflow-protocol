@@ -1,4 +1,4 @@
-require_relative '../structs/port_number'
+require_relative '../../structs/port_number'
 
 class OFQueueStatisticsReply < BinData::Record
   endian :big

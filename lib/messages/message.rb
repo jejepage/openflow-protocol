@@ -34,8 +34,8 @@ class OFMessage < SuperclassBase
     :statistics_reply,
     :barrier_request,
     :barrier_reply,
-    :queue_get_config_request, # TODO
-    :queue_get_config_reply # TODO
+    :queue_get_config_request,
+    :queue_get_config_reply
   ]
 
   uint8 :version, asserted_value: OFP_VERSION

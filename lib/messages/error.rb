@@ -58,4 +58,8 @@ class OFError < OFMessage
   def body_length
     4 + data.length
   end
+
+  def parsed_data
+    OFParser.read data.to_s
+  end
 end

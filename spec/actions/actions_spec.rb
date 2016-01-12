@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe OFActionOutput do
+describe OFActions do
   it 'should read binary' do
     actions = OFActions.read [
       # output

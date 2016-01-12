@@ -10,6 +10,8 @@ class SuperclassBase < BinData::Record
     super
     if self.class.name[2..7] == 'Action'
       name = self.class.name[8..-1]
+    elsif self.class.name[2..14] == 'QueueProperty'
+      name = self.class.name[15..-1]
     else
       name = self.class.name[2..-1]
     end

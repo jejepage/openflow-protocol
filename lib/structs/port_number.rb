@@ -1,5 +1,19 @@
 require 'bindata'
 
+class OFPortNumberStrict < BinData::Primitive
+  endian :big
+  uint16 :port_number, initial_value: 0
+
+  def get
+    port_number
+  end
+
+  def set(value)
+    raise ArgumentError, 'Invalid port number.' unless (0..OFPortNumber::MAX).include? value
+    self.port_number = value
+  end
+end
+
 class OFPortNumber < BinData::Primitive
   NUMBERS = {
     in_port: 0xfff8,

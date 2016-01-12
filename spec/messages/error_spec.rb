@@ -1,13 +1,17 @@
 require 'spec_helper'
 
 describe OFError do
-  it 'should read binary' do
-    msg = OFError.read [
+  let(:data) {
+    [
       1, 1, 0, 16, 0, 0, 0, 1, # header
       0, 0,                    # type
       0, 0,                    # code
       1, 2, 3, 4               # data
     ].pack('C*')
+  }
+
+  it 'should read binary' do
+    msg = OFError.read(data)
     expect(msg.version).to eq(OFMessage::OFP_VERSION)
     expect(msg.type).to eq(:error)
     expect(msg.len).to eq(16)
@@ -15,6 +19,10 @@ describe OFError do
     expect(msg.error_type).to eq(:hello_failed)
     expect(msg.error_code).to eq(:incompatible)
     expect(msg.data).to eq([1, 2, 3, 4].pack('C*'))
+  end
+  it 'should be parsable' do
+    msg = OFParser.read(data)
+    expect(msg.class).to eq(OFError)
   end
   it 'should read binary' do
     msg = OFError.read [

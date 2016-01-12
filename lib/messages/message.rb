@@ -1,7 +1,7 @@
 (Dir[File.expand_path '../helpers/**/*.rb', __dir__] +
  Dir[File.expand_path '../structs/**/*.rb', __dir__] +
  Dir[File.expand_path '../actions/**/*.rb', __dir__] +
- Dir[File.expand_path '../statistics/**/*.rb', __dir__]).each do |file|
+ Dir[File.expand_path 'statistics/**/*.rb', __dir__]).each do |file|
   require file
 end
 

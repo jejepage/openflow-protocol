@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe OFFeaturesReply do
-  it 'should read binary' do
-    msg = OFFeaturesReply.read [
+  let(:data) {
+    [
       1, 6, 0, 128, 0, 0, 0, 1, # header
       0, 0, 0, 0, 0, 0, 0, 42,  # datapath_id
       0, 0, 0, 10,              # n_buffers
@@ -37,43 +37,9 @@ describe OFFeaturesReply do
       0, 0, 0x0f, 0xff,   # supported_features
       0, 0, 0x0f, 0xff    # peer_features
     ].pack('C*')
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
-    expect(msg.type).to eq(:features_reply)
-    expect(msg.len).to eq(128)
-    expect(msg.xid).to eq(1)
-    expect(msg.datapath_id).to eq(42)
-    expect(msg.n_buffers).to eq(10)
-    expect(msg.n_tables).to eq(5)
-    expect(msg.capabilities).to eq([
-      :flow_stats,
-      :table_stats,
-      :port_stats,
-      :stp,
-      :reserved,
-      :ip_reasm,
-      :queue_stats,
-      :arp_match_ip
-    ])
-    expect(msg.actions).to eq([
-      :output,
-      :set_vlan_vid,
-      :set_vlan_pcp,
-      :strip_vlan,
-      :set_dl_src,
-      :set_dl_dst,
-      :set_nw_src,
-      :set_nw_dst,
-      :set_nw_tos,
-      :set_tp_src,
-      :set_tp_dst,
-      :enqueue
-    ])
-    expect(msg.ports.length).to eq(2)
-    expect(msg.ports[0].port_number).to eq(1)
-    expect(msg.ports[1].port_number).to eq(2)
-  end
-  it 'should read a real binary message' do
-    msg = OFFeaturesReply.read [
+  }
+  let(:real_data) {
+    [
       1, 6, 0, 176, 0, 0, 0, 0,
       0, 0, 0, 0, 0, 0, 0, 1,
       0, 0, 1, 0,
@@ -121,6 +87,51 @@ describe OFFeaturesReply do
       0, 0, 0, 0,
       0, 0, 0, 0
     ].pack('C*')
+  }
+
+  it 'should read binary' do
+    msg = OFFeaturesReply.read(data)
+    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    expect(msg.type).to eq(:features_reply)
+    expect(msg.len).to eq(128)
+    expect(msg.xid).to eq(1)
+    expect(msg.datapath_id).to eq(42)
+    expect(msg.n_buffers).to eq(10)
+    expect(msg.n_tables).to eq(5)
+    expect(msg.capabilities).to eq([
+      :flow_stats,
+      :table_stats,
+      :port_stats,
+      :stp,
+      :reserved,
+      :ip_reasm,
+      :queue_stats,
+      :arp_match_ip
+    ])
+    expect(msg.actions).to eq([
+      :output,
+      :set_vlan_vid,
+      :set_vlan_pcp,
+      :strip_vlan,
+      :set_dl_src,
+      :set_dl_dst,
+      :set_nw_src,
+      :set_nw_dst,
+      :set_nw_tos,
+      :set_tp_src,
+      :set_tp_dst,
+      :enqueue
+    ])
+    expect(msg.ports.length).to eq(2)
+    expect(msg.ports[0].port_number).to eq(1)
+    expect(msg.ports[1].port_number).to eq(2)
+  end
+  it 'should be parsable' do
+    msg = OFParser.read(data)
+    expect(msg.class).to eq(OFFeaturesReply)
+  end
+  it 'should read a real binary message' do
+    msg = OFFeaturesReply.read(real_data)
     expect(msg.ports.length).to eq(3)
   end
   it 'should initialize with default values' do

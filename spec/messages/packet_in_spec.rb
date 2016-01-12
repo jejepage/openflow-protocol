@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe OFPacketIn do
-  it 'should read binary' do
-    msg = OFPacketIn.read [
+  let(:data) {
+    [
       1, 10, 0, 64, 0, 0, 0, 1, # header
       0, 0, 0, 1,               # buffer_id
       0, 46,                    # total_length
@@ -31,6 +31,10 @@ describe OFPacketIn do
       0, 0, 0, 0, 0, 2, # mac_destination
       192, 168, 0, 2    # ip_destination
     ].pack('C*')
+  }
+
+  it 'should read binary' do
+    msg = OFPacketIn.read(data)
     expect(msg.version).to eq(OFMessage::OFP_VERSION)
     expect(msg.type).to eq(:packet_in)
     expect(msg.len).to eq(64)
@@ -42,6 +46,10 @@ describe OFPacketIn do
     expect(msg.data.length).to eq(46)
     expect(msg.parsed_data.length).to eq(46)
     expect(msg.parsed_data.mac_destination).to eq('00:00:00:00:00:02')
+  end
+  it 'should be parsable' do
+    msg = OFParser.read(data)
+    expect(msg.class).to eq(OFPacketIn)
   end
   it 'should initialize with default values' do
     msg = OFPacketIn.new

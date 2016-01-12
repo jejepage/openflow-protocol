@@ -1,17 +1,25 @@
 require 'spec_helper'
 
 describe OFVendor do
-  it 'should read binary' do
-    msg = OFVendor.read [
+  let(:data) {
+    [
       1, 4, 0, 12, 0, 0, 0, 1, # header
       0, 0, 0, 1               # vendor
     ].pack('C*')
+  }
+
+  it 'should read binary' do
+    msg = OFVendor.read(data)
     expect(msg.version).to eq(OFMessage::OFP_VERSION)
     expect(msg.type).to eq(:vendor)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(1)
     expect(msg.vendor).to eq(1)
     expect(msg.data).to be_empty
+  end
+  it 'should be parsable' do
+    msg = OFParser.read(data)
+    expect(msg.class).to eq(OFVendor)
   end
   it 'should read binary with data' do
     msg = OFVendor.read [

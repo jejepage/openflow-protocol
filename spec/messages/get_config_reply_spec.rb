@@ -1,18 +1,26 @@
 require 'spec_helper'
 
 describe OFGetConfigReply do
-  it 'should read binary' do
-    msg = OFGetConfigReply.read [
+  let(:data) {
+    [
       1, 8, 0, 12, 0, 0, 0, 1, # header
       0, 0,                    # flags
       0, 0xff                  # miss_send_length
     ].pack('C*')
+  }
+
+  it 'should read binary' do
+    msg = OFGetConfigReply.read(data)
     expect(msg.version).to eq(OFMessage::OFP_VERSION)
     expect(msg.type).to eq(:get_config_reply)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(1)
     expect(msg.flags).to eq(:fragments_normal)
     expect(msg.miss_send_length).to eq(0xff)
+  end
+  it 'should be parsable' do
+    msg = OFParser.read(data)
+    expect(msg.class).to eq(OFGetConfigReply)
   end
   it 'should initialize with default values' do
     msg = OFGetConfigReply.new

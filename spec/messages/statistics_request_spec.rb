@@ -1,13 +1,17 @@
 require 'spec_helper'
 
 describe OFStatisticsRequest do
+  let(:data) {
+    [
+      1, 16, 0, 12, 0, 0, 0, 1, # header
+      0, 0,                     # statistic_type
+      0, 0,                     # flags
+    ].pack('C*')
+  }
+
   context 'with description' do
     it 'should read binary' do
-      msg = OFStatisticsRequest.read [
-        1, 16, 0, 12, 0, 0, 0, 1, # header
-        0, 0,                     # statistic_type
-        0, 0,                     # flags
-      ].pack('C*')
+      msg = OFStatisticsRequest.read(data)
       expect(msg.version).to eq(OFMessage::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(12)
@@ -15,6 +19,10 @@ describe OFStatisticsRequest do
       expect(msg.statistic_type).to eq(:description)
       expect(msg.flags).to be_empty
       expect(msg.statistics).to be_empty
+    end
+    it 'should be parsable' do
+      msg = OFParser.read(data)
+      expect(msg.class).to eq(OFStatisticsRequest)
     end
     it 'should initialize with default values' do
       msg = OFStatisticsRequest.new

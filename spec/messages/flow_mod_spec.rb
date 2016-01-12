@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe OFFlowMod do
-  it 'should read binary' do
-    msg = OFFlowMod.read [
+  let(:data) {
+    [
       1, 14, 0, 80, 0, 0, 0, 1, # header
 
       # match
@@ -37,6 +37,10 @@ describe OFFlowMod do
       0, 1,       # port
       0xff, 0xff, # max_length
     ].pack('C*')
+  }
+
+  it 'should read binary' do
+    msg = OFFlowMod.read(data)
     expect(msg.version).to eq(OFMessage::OFP_VERSION)
     expect(msg.type).to eq(:flow_mod)
     expect(msg.len).to eq(80)
@@ -52,6 +56,10 @@ describe OFFlowMod do
     expect(msg.flags).to eq([:send_flow_removed])
     expect(msg.actions.length).to eq(1)
     expect(msg.actions.first.type).to eq(:output)
+  end
+  it 'should be parsable' do
+    msg = OFParser.read(data)
+    expect(msg.class).to eq(OFFlowMod)
   end
   it 'should initialize with default values' do
     msg = OFFlowMod.new

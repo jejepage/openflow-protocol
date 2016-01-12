@@ -31,8 +31,8 @@ class OFFeaturesReply < OFMessage
     :enqueue
   ]
   array :ports,
-        type: :of_physical_port,
-        initial_length: -> { (len - ports.rel_offset) / 48 }
+    type: :of_physical_port,
+    initial_length: -> { (len - ports.rel_offset) / 48 }
 
   def body_length
     24 + ports.to_binary_s.length

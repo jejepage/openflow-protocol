@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe OFFlowRemoved do
-  it 'should read binary' do
-    msg = OFFlowRemoved.read [
+  let(:data) {
+    [
       1, 11, 0, 88, 0, 0, 0, 1, # header
 
       # match
@@ -33,6 +33,10 @@ describe OFFlowRemoved do
       0, 0, 0, 0, 0, 0, 0, 10, # packet_count
       0, 0, 0, 0, 0, 0, 0, 80  # byte_count
     ].pack('C*')
+  }
+
+  it 'should read binary' do
+    msg = OFFlowRemoved.read(data)
     expect(msg.version).to eq(OFMessage::OFP_VERSION)
     expect(msg.type).to eq(:flow_removed)
     expect(msg.len).to eq(88)
@@ -46,6 +50,10 @@ describe OFFlowRemoved do
     expect(msg.idle_timeout).to eq(100)
     expect(msg.packet_count).to eq(10)
     expect(msg.byte_count).to eq(80)
+  end
+  it 'should be parsable' do
+    msg = OFParser.read(data)
+    expect(msg.class).to eq(OFFlowRemoved)
   end
   it 'should initialize with default values' do
     msg = OFFlowRemoved.new

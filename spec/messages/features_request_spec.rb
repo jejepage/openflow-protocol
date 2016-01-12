@@ -1,12 +1,18 @@
 require 'spec_helper'
 
 describe OFFeaturesRequest do
+  let(:data) { [1, 5, 0, 8, 0, 0, 0, 1].pack('C*') }
+
   it 'should read binary' do
-    msg = OFFeaturesRequest.read [1, 5, 0, 8, 0, 0, 0, 1].pack('C*')
+    msg = OFFeaturesRequest.read(data)
     expect(msg.version).to eq(OFMessage::OFP_VERSION)
     expect(msg.type).to eq(:features_request)
     expect(msg.len).to eq(8)
     expect(msg.xid).to eq(1)
+  end
+  it 'should be parsable' do
+    msg = OFParser.read(data)
+    expect(msg.class).to eq(OFFeaturesRequest)
   end
   it 'should initialize with default values' do
     msg = OFFeaturesRequest.new

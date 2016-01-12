@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe OFPortStatus do
-  it 'should read binary' do
-    msg = OFPortStatus.read [
+  let(:data) {
+    [
       1, 12, 0, 64, 0, 0, 0, 1, # header
       1,                        # reason
       0, 0, 0, 0, 0, 0, 0,      # padding
@@ -20,12 +20,20 @@ describe OFPortStatus do
       0, 0, 0x0f, 0xff,   # supported_features
       0, 0, 0x0f, 0xff    # peer_features
     ].pack('C*')
+  }
+
+  it 'should read binary' do
+    msg = OFPortStatus.read(data)
     expect(msg.version).to eq(OFMessage::OFP_VERSION)
     expect(msg.type).to eq(:port_status)
     expect(msg.len).to eq(64)
     expect(msg.xid).to eq(1)
     expect(msg.reason).to eq(:delete)
     expect(msg.desc.port_number).to eq(1)
+  end
+  it 'should be parsable' do
+    msg = OFParser.read(data)
+    expect(msg.class).to eq(OFPortStatus)
   end
   it 'should initialize with default values' do
     msg = OFPortStatus.new

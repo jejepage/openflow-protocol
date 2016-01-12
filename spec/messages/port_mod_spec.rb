@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe OFPortMod do
-  it 'should read binary' do
-    msg = OFPortMod.read [
+  let(:data) {
+    [
       1, 15, 0, 32, 0, 0, 0, 1, # header
       0, 1,                     # port_number
       0, 0, 0, 0, 0, 1,         # hardware_address
@@ -11,6 +11,10 @@ describe OFPortMod do
       0, 0, 0, 3,               # advertise
       0, 0, 0, 0                # padding
     ].pack('C*')
+  }
+
+  it 'should read binary' do
+    msg = OFPortMod.read(data)
     expect(msg.version).to eq(OFMessage::OFP_VERSION)
     expect(msg.type).to eq(:port_mod)
     expect(msg.len).to eq(32)
@@ -23,6 +27,10 @@ describe OFPortMod do
       :port_10mb_half_duplex,
       :port_10mb_full_duplex
     ])
+  end
+  it 'should be parsable' do
+    msg = OFParser.read(data)
+    expect(msg.class).to eq(OFPortMod)
   end
   it 'should initialize with default values' do
     msg = OFPortMod.new

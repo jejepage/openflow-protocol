@@ -2,18 +2,23 @@ require 'spec_helper'
 
 describe OFStatisticsReply do
   context 'with description' do
-    it 'should read binary' do
-      desc = 'Manufacturer description'.pad(256) +
-             'Hardware description'.pad(256) +
-             'Software description'.pad(256) +
-             '123456789'.pad(32) +
-             'Datapath description'.pad(256)
-
-      msg = OFStatisticsReply.read [
+    let(:desc) {
+      'Manufacturer description'.pad(256) +
+      'Hardware description'.pad(256) +
+      'Software description'.pad(256) +
+      '123456789'.pad(32) +
+      'Datapath description'.pad(256)
+    }
+    let(:data) {
+      [
         1, 17, 0x04, 0x2c, 0, 0, 0, 1, # header
         0, 0,                          # statistic_type
         0, 1,                          # flags
       ].pack('C*') + desc
+    }
+
+    it 'should read binary' do
+      msg = OFStatisticsReply.read(data)
       expect(msg.version).to eq(OFMessage::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(1068)
@@ -21,6 +26,10 @@ describe OFStatisticsReply do
       expect(msg.statistic_type).to eq(:description)
       expect(msg.flags).to eq([:reply_more])
       expect(msg.statistics.serial_number).to eq('123456789')
+    end
+    it 'should be parsable' do
+      msg = OFParser.read(data)
+      expect(msg.class).to eq(OFStatisticsReply)
     end
     it 'should initialize with default values' do
       msg = OFStatisticsReply.new
@@ -52,8 +61,8 @@ describe OFStatisticsReply do
   end
 
   context 'with flow' do
-    it 'should read binary' do
-      msg = OFStatisticsReply.read [
+    let(:data) {
+      [
         1, 17, 0, 108, 0, 0, 0, 1, # header
         0, 1,                      # statistic_type
         0, 1,                      # flags
@@ -96,6 +105,10 @@ describe OFStatisticsReply do
         0, 1,       # port
         0xff, 0xff # max_length
       ].pack('C*')
+    }
+
+    it 'should read binary' do
+      msg = OFStatisticsReply.read(data)
       expect(msg.version).to eq(OFMessage::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(108)
@@ -104,6 +117,10 @@ describe OFStatisticsReply do
       expect(msg.flags).to eq([:reply_more])
       expect(msg.statistics.table_id).to eq(1)
       expect(msg.statistics.actions.length).to eq(1)
+    end
+    it 'should be parsable' do
+      msg = OFParser.read(data)
+      expect(msg.class).to eq(OFStatisticsReply)
     end
     it 'should initialize with default values' do
       msg = OFStatisticsReply.new(statistic_type: :flow)
@@ -138,8 +155,8 @@ describe OFStatisticsReply do
   end
 
   context 'with aggregate' do
-    it 'should read binary' do
-      msg = OFStatisticsReply.read [
+    let(:data) {
+      [
         1, 17, 0, 36, 0, 0, 0, 1, # header
         0, 2,                     # statistic_type
         0, 1,                     # flags
@@ -150,6 +167,10 @@ describe OFStatisticsReply do
         0, 0, 0, 4,              # flow_count
         0, 0, 0, 0               # padding
       ].pack('C*')
+    }
+
+    it 'should read binary' do
+      msg = OFStatisticsReply.read(data)
       expect(msg.version).to eq(OFMessage::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(36)
@@ -167,6 +188,10 @@ describe OFStatisticsReply do
       expect(msg.statistic_type).to eq(:aggregate)
       expect(msg.flags).to be_empty
       expect(msg.statistics.packet_count).to eq(0)
+    end
+    it 'should be parsable' do
+      msg = OFParser.read(data)
+      expect(msg.class).to eq(OFStatisticsReply)
     end
     it 'should initialize with some values' do
       msg = OFStatisticsReply.new(
@@ -190,8 +215,8 @@ describe OFStatisticsReply do
   end
 
   context 'with table' do
-    it 'should read binary' do
-      msg = OFStatisticsReply.read [
+    let(:data) {
+      [
         1, 17, 0, 76, 0, 0, 0, 1, # header
         0, 3,                     # statistic_type
         0, 1,                     # flags
@@ -209,6 +234,10 @@ describe OFStatisticsReply do
         0, 0, 0, 0, 0, 0, 0, 4,           # lookup_count
         0, 0, 0, 0, 0, 0, 0, 1            # matched_count
       ].pack('C*')
+    }
+
+    it 'should read binary' do
+      msg = OFStatisticsReply.read(data)
       expect(msg.version).to eq(OFMessage::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(76)
@@ -217,6 +246,10 @@ describe OFStatisticsReply do
       expect(msg.flags).to eq([:reply_more])
       expect(msg.statistics.length).to eq(1)
       expect(msg.statistics.first.table_id).to eq(1)
+    end
+    it 'should be parsable' do
+      msg = OFParser.read(data)
+      expect(msg.class).to eq(OFStatisticsReply)
     end
     it 'should initialize with default values' do
       msg = OFStatisticsReply.new(statistic_type: :table)
@@ -247,8 +280,8 @@ describe OFStatisticsReply do
   end
 
   context 'with port' do
-    it 'should read binary' do
-      msg = OFStatisticsReply.read [
+    let(:data) {
+      [
         1, 17, 0, 116, 0, 0, 0, 1, # header
         0, 4,                      # statistic_type
         0, 1,                      # flags
@@ -269,6 +302,10 @@ describe OFStatisticsReply do
         0, 0, 0, 0, 0, 0, 0, 1,  # receive_crc_errors
         0, 0, 0, 0, 0, 0, 0, 3   # collisions
       ].pack('C*')
+    }
+
+    it 'should read binary' do
+      msg = OFStatisticsReply.read(data)
       expect(msg.version).to eq(OFMessage::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(116)
@@ -277,6 +314,10 @@ describe OFStatisticsReply do
       expect(msg.flags).to eq([:reply_more])
       expect(msg.statistics.length).to eq(1)
       expect(msg.statistics.first.port_number).to eq(1)
+    end
+    it 'should be parsable' do
+      msg = OFParser.read(data)
+      expect(msg.class).to eq(OFStatisticsReply)
     end
     it 'should initialize with default values' do
       msg = OFStatisticsReply.new(statistic_type: :port)
@@ -307,8 +348,8 @@ describe OFStatisticsReply do
   end
 
   context 'with queue' do
-    it 'should read binary' do
-      msg = OFStatisticsReply.read [
+    let(:data) {
+      [
         1, 17, 0, 44, 0, 0, 0, 1, # header
         0, 5,                     # statistic_type
         0, 1,                     # flags
@@ -321,6 +362,10 @@ describe OFStatisticsReply do
         0, 0, 0, 0, 0, 0, 0, 10, # transmit_packets
         0, 0, 0, 0, 0, 0, 0, 2   # transmit_errors
       ].pack('C*')
+    }
+
+    it 'should read binary' do
+      msg = OFStatisticsReply.read(data)
       expect(msg.version).to eq(OFMessage::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(44)
@@ -329,6 +374,10 @@ describe OFStatisticsReply do
       expect(msg.flags).to eq([:reply_more])
       expect(msg.statistics.length).to eq(1)
       expect(msg.statistics.first.port_number).to eq(1)
+    end
+    it 'should be parsable' do
+      msg = OFParser.read(data)
+      expect(msg.class).to eq(OFStatisticsReply)
     end
     it 'should initialize with default values' do
       msg = OFStatisticsReply.new(statistic_type: :queue)
@@ -359,8 +408,8 @@ describe OFStatisticsReply do
   end
 
   context 'with vendor' do
-    it 'should read binary' do
-      msg = OFStatisticsReply.read [
+    let(:data) {
+      [
         1, 17, 0, 20, 0, 0, 0, 1, # header
         0xff, 0xff,               # statistic_type
         0, 0,                     # flags
@@ -369,6 +418,10 @@ describe OFStatisticsReply do
         0, 0, 0, 1, # vendor
         1, 2, 3, 4  # body
       ].pack('C*')
+    }
+
+    it 'should read binary' do
+      msg = OFStatisticsReply.read(data)
       expect(msg.version).to eq(OFMessage::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(20)
@@ -377,6 +430,10 @@ describe OFStatisticsReply do
       expect(msg.flags).to be_empty
       expect(msg.statistics.vendor).to eq(1)
       expect(msg.statistics.body).to eq([1, 2, 3, 4].pack('C*'))
+    end
+    it 'should be parsable' do
+      msg = OFParser.read(data)
+      expect(msg.class).to eq(OFStatisticsReply)
     end
     it 'should initialize with default values' do
       msg = OFStatisticsReply.new(statistic_type: :vendor)

@@ -6,6 +6,8 @@ class OFPortMod < OFMessage
   flags32 :config, list: OFPhysicalPort::CONFIG
   flags32 :mask, list: OFPhysicalPort::CONFIG
   flags32 :advertise, list: OFPhysicalPort::FEATURES
+  uint32 :padding
+  hide :padding
 
   def body_length
     24

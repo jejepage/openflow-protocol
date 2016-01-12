@@ -1,4 +1,4 @@
-describe OpenFlow::Protocol::PortStatus do
+describe PortStatus do
   let(:data) {
     [
       1, 12, 0, 64, 0, 0, 0, 1, # header
@@ -21,8 +21,8 @@ describe OpenFlow::Protocol::PortStatus do
   }
 
   it 'should read binary' do
-    msg = OpenFlow::Protocol::PortStatus.read(data)
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = PortStatus.read(data)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:port_status)
     expect(msg.len).to eq(64)
     expect(msg.xid).to eq(1)
@@ -30,12 +30,12 @@ describe OpenFlow::Protocol::PortStatus do
     expect(msg.desc.port_number).to eq(1)
   end
   it 'should be parsable' do
-    msg = OpenFlow::Protocol::Parser.read(data)
-    expect(msg.class).to eq(OpenFlow::Protocol::PortStatus)
+    msg = Parser.read(data)
+    expect(msg.class).to eq(PortStatus)
   end
   it 'should initialize with default values' do
-    msg = OpenFlow::Protocol::PortStatus.new
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = PortStatus.new
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:port_status)
     expect(msg.len).to eq(64)
     expect(msg.xid).to eq(0)
@@ -43,12 +43,12 @@ describe OpenFlow::Protocol::PortStatus do
     expect(msg.desc.port_number).to eq(0)
   end
   it 'should initialize with some values' do
-    msg = OpenFlow::Protocol::PortStatus.new(
+    msg = PortStatus.new(
       xid: 1,
       reason: :delete,
-      desc: OpenFlow::Protocol::PhysicalPort.new(port_number: 1)
+      desc: PhysicalPort.new(port_number: 1)
     )
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:port_status)
     expect(msg.len).to eq(64)
     expect(msg.xid).to eq(1)

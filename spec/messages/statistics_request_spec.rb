@@ -1,4 +1,4 @@
-describe OpenFlow::Protocol::StatisticsRequest do
+describe StatisticsRequest do
   let(:data) {
     [
       1, 16, 0, 12, 0, 0, 0, 1, # header
@@ -9,8 +9,8 @@ describe OpenFlow::Protocol::StatisticsRequest do
 
   context 'with description' do
     it 'should read binary' do
-      msg = OpenFlow::Protocol::StatisticsRequest.read(data)
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      msg = StatisticsRequest.read(data)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(12)
       expect(msg.xid).to eq(1)
@@ -19,12 +19,12 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics).to be_empty
     end
     it 'should be parsable' do
-      msg = OpenFlow::Protocol::Parser.read(data)
-      expect(msg.class).to eq(OpenFlow::Protocol::StatisticsRequest)
+      msg = Parser.read(data)
+      expect(msg.class).to eq(StatisticsRequest)
     end
     it 'should initialize with default values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      msg = StatisticsRequest.new
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(12)
       expect(msg.xid).to eq(0)
@@ -33,11 +33,11 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics).to be_empty
     end
     it 'should initialize with some values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(
+      msg = StatisticsRequest.new(
         xid: 1,
         statistic_type: :description
       )
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(12)
       expect(msg.xid).to eq(1)
@@ -49,7 +49,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
 
   context 'with flow' do
     it 'should read binary' do
-      msg = OpenFlow::Protocol::StatisticsRequest.read [
+      msg = StatisticsRequest.read [
         1, 16, 0, 56, 0, 0, 0, 1, # header
         0, 1,                     # statistic_type
         0, 0,                     # flags
@@ -76,7 +76,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
         0,    # padding
         0, 1  # out_port
       ].pack('C*')
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(56)
       expect(msg.xid).to eq(1)
@@ -85,8 +85,8 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics.table_id).to eq(1)
     end
     it 'should initialize with default values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(statistic_type: :flow)
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      msg = StatisticsRequest.new(statistic_type: :flow)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(56)
       expect(msg.xid).to eq(0)
@@ -95,14 +95,14 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics.table_id).to eq(:all)
     end
     it 'should initialize with some values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(
+      msg = StatisticsRequest.new(
         xid: 1,
         statistic_type: :flow,
         statistics: {
           table_id: 1
         }
       )
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(56)
       expect(msg.xid).to eq(1)
@@ -114,7 +114,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
 
   context 'with aggregate' do
     it 'should read binary' do
-      msg = OpenFlow::Protocol::StatisticsRequest.read [
+      msg = StatisticsRequest.read [
         1, 16, 0, 56, 0, 0, 0, 1, # header
         0, 2,                     # statistic_type
         0, 0,                     # flags
@@ -141,7 +141,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
         0,    # padding
         0, 1  # out_port
       ].pack('C*')
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(56)
       expect(msg.xid).to eq(1)
@@ -150,8 +150,8 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics.table_id).to eq(1)
     end
     it 'should initialize with default values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(statistic_type: :aggregate)
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      msg = StatisticsRequest.new(statistic_type: :aggregate)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(56)
       expect(msg.xid).to eq(0)
@@ -160,14 +160,14 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics.table_id).to eq(:all)
     end
     it 'should initialize with some values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(
+      msg = StatisticsRequest.new(
         xid: 1,
         statistic_type: :aggregate,
         statistics: {
           table_id: 1
         }
       )
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(56)
       expect(msg.xid).to eq(1)
@@ -179,12 +179,12 @@ describe OpenFlow::Protocol::StatisticsRequest do
 
   context 'with table' do
     it 'should read binary' do
-      msg = OpenFlow::Protocol::StatisticsRequest.read [
+      msg = StatisticsRequest.read [
         1, 16, 0, 12, 0, 0, 0, 1, # header
         0, 3,                     # statistic_type
         0, 0,                     # flags
       ].pack('C*')
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(12)
       expect(msg.xid).to eq(1)
@@ -193,8 +193,8 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics).to be_empty
     end
     it 'should initialize with default values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(statistic_type: :table)
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      msg = StatisticsRequest.new(statistic_type: :table)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(12)
       expect(msg.xid).to eq(0)
@@ -203,11 +203,11 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics).to be_empty
     end
     it 'should initialize with some values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(
+      msg = StatisticsRequest.new(
         xid: 1,
         statistic_type: :table
       )
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(12)
       expect(msg.xid).to eq(1)
@@ -219,7 +219,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
 
   context 'with port' do
     it 'should read binary' do
-      msg = OpenFlow::Protocol::StatisticsRequest.read [
+      msg = StatisticsRequest.read [
         1, 16, 0, 20, 0, 0, 0, 1, # header
         0, 4,                     # statistic_type
         0, 0,                     # flags
@@ -228,7 +228,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
         0, 1,            # port_number
         0, 0, 0, 0, 0, 0 # padding
       ].pack('C*')
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(20)
       expect(msg.xid).to eq(1)
@@ -237,8 +237,8 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics.port_number).to eq(1)
     end
     it 'should initialize with default values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(statistic_type: :port)
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      msg = StatisticsRequest.new(statistic_type: :port)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(20)
       expect(msg.xid).to eq(0)
@@ -247,12 +247,12 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics.port_number).to eq(:none)
     end
     it 'should initialize with some values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(
+      msg = StatisticsRequest.new(
         xid: 1,
         statistic_type: :port,
         statistics: {port_number: 1}
       )
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(20)
       expect(msg.xid).to eq(1)
@@ -264,7 +264,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
 
   context 'with queue' do
     it 'should read binary' do
-      msg = OpenFlow::Protocol::StatisticsRequest.read [
+      msg = StatisticsRequest.read [
         1, 16, 0, 20, 0, 0, 0, 1, # header
         0, 5,                     # statistic_type
         0, 0,                     # flags
@@ -274,7 +274,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
         0, 0,      # padding
         0, 0, 0, 1 # queue_id
       ].pack('C*')
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(20)
       expect(msg.xid).to eq(1)
@@ -283,8 +283,8 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics.port_number).to eq(1)
     end
     it 'should initialize with default values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(statistic_type: :queue)
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      msg = StatisticsRequest.new(statistic_type: :queue)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(20)
       expect(msg.xid).to eq(0)
@@ -293,12 +293,12 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics.port_number).to eq(:all)
     end
     it 'should initialize with some values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(
+      msg = StatisticsRequest.new(
         xid: 1,
         statistic_type: :queue,
         statistics: {port_number: 1}
       )
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(20)
       expect(msg.xid).to eq(1)
@@ -310,7 +310,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
 
   context 'with vendor' do
     it 'should read binary' do
-      msg = OpenFlow::Protocol::StatisticsRequest.read [
+      msg = StatisticsRequest.read [
         1, 16, 0, 20, 0, 0, 0, 1, # header
         0xff, 0xff,               # statistic_type
         0, 0,                     # flags
@@ -319,7 +319,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
         0, 0, 0, 1, # vendor
         1, 2, 3, 4  # body
       ].pack('C*')
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(20)
       expect(msg.xid).to eq(1)
@@ -329,8 +329,8 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics.body).to eq([1, 2, 3, 4].pack('C*'))
     end
     it 'should initialize with default values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(statistic_type: :vendor)
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      msg = StatisticsRequest.new(statistic_type: :vendor)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(16)
       expect(msg.xid).to eq(0)
@@ -340,7 +340,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
       expect(msg.statistics.body).to be_empty
     end
     it 'should initialize with some values' do
-      msg = OpenFlow::Protocol::StatisticsRequest.new(
+      msg = StatisticsRequest.new(
         xid: 1,
         statistic_type: :vendor,
         statistics: {
@@ -348,7 +348,7 @@ describe OpenFlow::Protocol::StatisticsRequest do
           body: [1, 2, 3, 4].pack('C*')
         }
       )
-      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+      expect(msg.version).to eq(Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_request)
       expect(msg.len).to eq(20)
       expect(msg.xid).to eq(1)

@@ -1,4 +1,4 @@
-describe OpenFlow::Protocol::Parser do
+describe Parser do
   let(:hello_msg) { [1, 0, 0, 8, 0, 0, 0, 1].pack('C*') }
   let(:packet_out_msg) {
     [
@@ -17,18 +17,18 @@ describe OpenFlow::Protocol::Parser do
   }
 
   it 'should read binary Hello Message' do
-    msg = OpenFlow::Protocol::Parser.read(hello_msg)
-    expect(msg.class).to be(OpenFlow::Protocol::Hello)
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = Parser.read(hello_msg)
+    expect(msg.class).to be(Hello)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:hello)
     expect(msg.len).to eq(8)
     expect(msg.xid).to eq(1)
   end
 
   it 'should read binary PacketOut Message' do
-    msg = OpenFlow::Protocol::Parser.read(packet_out_msg)
-    expect(msg.class).to be(OpenFlow::Protocol::PacketOut)
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = Parser.read(packet_out_msg)
+    expect(msg.class).to be(PacketOut)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:packet_out)
     expect(msg.len).to eq(26)
     expect(msg.xid).to eq(1)

@@ -1,4 +1,4 @@
-describe OpenFlow::Protocol::PacketIn do
+describe PacketIn do
   let(:data) {
     [
       1, 10, 0, 64, 0, 0, 0, 1, # header
@@ -32,8 +32,8 @@ describe OpenFlow::Protocol::PacketIn do
   }
 
   it 'should read binary' do
-    msg = OpenFlow::Protocol::PacketIn.read(data)
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = PacketIn.read(data)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:packet_in)
     expect(msg.len).to eq(64)
     expect(msg.xid).to eq(1)
@@ -46,12 +46,12 @@ describe OpenFlow::Protocol::PacketIn do
     expect(msg.parsed_data.mac_destination).to eq('00:00:00:00:00:02')
   end
   it 'should be parsable' do
-    msg = OpenFlow::Protocol::Parser.read(data)
-    expect(msg.class).to eq(OpenFlow::Protocol::PacketIn)
+    msg = Parser.read(data)
+    expect(msg.class).to eq(PacketIn)
   end
   it 'should initialize with default values' do
-    msg = OpenFlow::Protocol::PacketIn.new
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = PacketIn.new
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:packet_in)
     expect(msg.len).to eq(18)
     expect(msg.xid).to eq(0)
@@ -62,14 +62,14 @@ describe OpenFlow::Protocol::PacketIn do
     expect(msg.data).to be_empty
   end
   it 'should initialize with some values' do
-    msg = OpenFlow::Protocol::PacketIn.new(
+    msg = PacketIn.new(
       xid: 1,
       buffer_id: 1,
       in_port: 1,
       reason: :no_match,
       data: [1, 2].pack('C*')
     )
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:packet_in)
     expect(msg.len).to eq(20)
     expect(msg.xid).to eq(1)

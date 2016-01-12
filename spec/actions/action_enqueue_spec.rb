@@ -1,6 +1,6 @@
-describe OpenFlow::Protocol::ActionEnqueue do
+describe ActionEnqueue do
   it 'should read binary' do
-    action = OpenFlow::Protocol::ActionEnqueue.read [
+    action = ActionEnqueue.read [
       0, 11, 0, 16,     # header
       0, 1,             # port
       0, 0, 0, 0, 0, 0, # padding
@@ -12,14 +12,14 @@ describe OpenFlow::Protocol::ActionEnqueue do
     expect(action.queue_id).to eq(1)
   end
   it 'should initialize with default values' do
-    action = OpenFlow::Protocol::ActionEnqueue.new
+    action = ActionEnqueue.new
     expect(action.type).to eq(:enqueue)
     expect(action.len).to eq(16)
     expect(action.port).to eq(:none)
     expect(action.queue_id).to eq(0)
   end
   it 'should initialize with some values' do
-    action = OpenFlow::Protocol::ActionEnqueue.new(port: 1, queue_id: 1)
+    action = ActionEnqueue.new(port: 1, queue_id: 1)
     expect(action.type).to eq(:enqueue)
     expect(action.len).to eq(16)
     expect(action.port).to eq(1)

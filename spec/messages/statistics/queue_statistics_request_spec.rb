@@ -1,6 +1,6 @@
-describe OpenFlow::Protocol::QueueStatisticsRequest do
+describe QueueStatisticsRequest do
   it 'should read binary' do
-    stats = OpenFlow::Protocol::QueueStatisticsRequest.read [
+    stats = QueueStatisticsRequest.read [
       0, 1,      # port_number
       0, 0,      # padding
       0, 0, 0, 1 # queue_id
@@ -9,12 +9,12 @@ describe OpenFlow::Protocol::QueueStatisticsRequest do
     expect(stats.queue_id).to eq(1)
   end
   it 'should initialize with default values' do
-    stats = OpenFlow::Protocol::QueueStatisticsRequest.new
+    stats = QueueStatisticsRequest.new
     expect(stats.port_number).to eq(:all)
     expect(stats.queue_id).to eq(:all)
   end
   it 'should initialize with some values' do
-    stats = OpenFlow::Protocol::QueueStatisticsRequest.new(
+    stats = QueueStatisticsRequest.new(
       port_number: 1,
       queue_id: 1
     )

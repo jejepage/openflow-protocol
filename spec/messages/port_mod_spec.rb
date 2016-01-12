@@ -1,4 +1,4 @@
-describe OpenFlow::Protocol::PortMod do
+describe PortMod do
   let(:data) {
     [
       1, 15, 0, 32, 0, 0, 0, 1, # header
@@ -12,8 +12,8 @@ describe OpenFlow::Protocol::PortMod do
   }
 
   it 'should read binary' do
-    msg = OpenFlow::Protocol::PortMod.read(data)
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = PortMod.read(data)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:port_mod)
     expect(msg.len).to eq(32)
     expect(msg.xid).to eq(1)
@@ -27,12 +27,12 @@ describe OpenFlow::Protocol::PortMod do
     ])
   end
   it 'should be parsable' do
-    msg = OpenFlow::Protocol::Parser.read(data)
-    expect(msg.class).to eq(OpenFlow::Protocol::PortMod)
+    msg = Parser.read(data)
+    expect(msg.class).to eq(PortMod)
   end
   it 'should initialize with default values' do
-    msg = OpenFlow::Protocol::PortMod.new
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = PortMod.new
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:port_mod)
     expect(msg.len).to eq(32)
     expect(msg.xid).to eq(0)
@@ -43,7 +43,7 @@ describe OpenFlow::Protocol::PortMod do
     expect(msg.advertise).to be_empty
   end
   it 'should initialize with some values' do
-    msg = OpenFlow::Protocol::PortMod.new(
+    msg = PortMod.new(
       xid: 1,
       port_number: 1,
       hardware_address: '00:00:00:00:00:01',
@@ -54,7 +54,7 @@ describe OpenFlow::Protocol::PortMod do
         :port_10mb_full_duplex
       ]
     )
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:port_mod)
     expect(msg.len).to eq(32)
     expect(msg.xid).to eq(1)

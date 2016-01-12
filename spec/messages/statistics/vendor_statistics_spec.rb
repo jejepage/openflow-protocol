@@ -1,6 +1,6 @@
-describe OpenFlow::Protocol::VendorStatistics do
+describe VendorStatistics do
   it 'should read binary' do
-    stats = OpenFlow::Protocol::VendorStatistics.read [
+    stats = VendorStatistics.read [
       0, 0, 0, 1, # vendor
       1, 2, 3, 4  # body
     ].pack('C*')
@@ -8,12 +8,12 @@ describe OpenFlow::Protocol::VendorStatistics do
     expect(stats.body).to eq([1, 2, 3, 4].pack('C*'))
   end
   it 'should initialize with default values' do
-    stats = OpenFlow::Protocol::VendorStatistics.new
+    stats = VendorStatistics.new
     expect(stats.vendor).to eq(0)
     expect(stats.body).to be_empty
   end
   it 'should initialize with some values' do
-    stats = OpenFlow::Protocol::VendorStatistics.new(
+    stats = VendorStatistics.new(
       vendor: 1,
       body: [1, 2, 3, 4].pack('C*')
     )

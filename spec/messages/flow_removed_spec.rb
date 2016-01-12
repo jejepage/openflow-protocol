@@ -1,4 +1,4 @@
-describe OpenFlow::Protocol::FlowRemoved do
+describe FlowRemoved do
   let(:data) {
     [
       1, 11, 0, 88, 0, 0, 0, 1, # header
@@ -34,8 +34,8 @@ describe OpenFlow::Protocol::FlowRemoved do
   }
 
   it 'should read binary' do
-    msg = OpenFlow::Protocol::FlowRemoved.read(data)
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = FlowRemoved.read(data)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:flow_removed)
     expect(msg.len).to eq(88)
     expect(msg.xid).to eq(1)
@@ -50,12 +50,12 @@ describe OpenFlow::Protocol::FlowRemoved do
     expect(msg.byte_count).to eq(80)
   end
   it 'should be parsable' do
-    msg = OpenFlow::Protocol::Parser.read(data)
-    expect(msg.class).to eq(OpenFlow::Protocol::FlowRemoved)
+    msg = Parser.read(data)
+    expect(msg.class).to eq(FlowRemoved)
   end
   it 'should initialize with default values' do
-    msg = OpenFlow::Protocol::FlowRemoved.new
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = FlowRemoved.new
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:flow_removed)
     expect(msg.len).to eq(88)
     expect(msg.xid).to eq(0)
@@ -70,7 +70,7 @@ describe OpenFlow::Protocol::FlowRemoved do
     expect(msg.byte_count).to eq(0)
   end
   it 'should initialize with some values' do
-    msg = OpenFlow::Protocol::FlowRemoved.new(
+    msg = FlowRemoved.new(
       xid: 1,
       match: {
         wildcards: {
@@ -98,7 +98,7 @@ describe OpenFlow::Protocol::FlowRemoved do
       packet_count: 10,
       byte_count: 80
     )
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:flow_removed)
     expect(msg.len).to eq(88)
     expect(msg.xid).to eq(1)

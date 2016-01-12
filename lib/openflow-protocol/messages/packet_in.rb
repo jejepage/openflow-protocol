@@ -19,7 +19,7 @@ module OpenFlow
       end
 
       def parsed_data
-        @parsed_data ||= Ethernet.read(data)
+        @parsed_data ||= PacketProtocols::Ethernet.read(data)
         @parsed_data
       end
     end

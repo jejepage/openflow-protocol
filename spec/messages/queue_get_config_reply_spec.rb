@@ -1,4 +1,4 @@
-describe OpenFlow::Protocol::QueueGetConfigReply do
+describe QueueGetConfigReply do
   let(:data) {
     [
       1, 21, 0, 48, 0, 0, 0, 1, # header
@@ -21,8 +21,8 @@ describe OpenFlow::Protocol::QueueGetConfigReply do
   }
 
   it 'should read binary' do
-    msg = OpenFlow::Protocol::QueueGetConfigReply.read(data)
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = QueueGetConfigReply.read(data)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:queue_get_config_reply)
     expect(msg.len).to eq(48)
     expect(msg.xid).to eq(1)
@@ -33,12 +33,12 @@ describe OpenFlow::Protocol::QueueGetConfigReply do
     expect(msg.queues.last.queue_id).to eq(2)
   end
   it 'should be parsable' do
-    msg = OpenFlow::Protocol::Parser.read(data)
-    expect(msg.class).to eq(OpenFlow::Protocol::QueueGetConfigReply)
+    msg = Parser.read(data)
+    expect(msg.class).to eq(QueueGetConfigReply)
   end
   it 'should initialize with default values' do
-    msg = OpenFlow::Protocol::QueueGetConfigReply.new
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = QueueGetConfigReply.new
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:queue_get_config_reply)
     expect(msg.len).to eq(16)
     expect(msg.xid).to eq(0)
@@ -46,7 +46,7 @@ describe OpenFlow::Protocol::QueueGetConfigReply do
     expect(msg.queues).to be_empty
   end
   it 'should initialize with some values' do
-    msg = OpenFlow::Protocol::QueueGetConfigReply.new(
+    msg = QueueGetConfigReply.new(
       xid: 1,
       port: 2,
       queues: [
@@ -54,7 +54,7 @@ describe OpenFlow::Protocol::QueueGetConfigReply do
         { queue_id: 2 },
       ]
     )
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:queue_get_config_reply)
     expect(msg.len).to eq(32)
     expect(msg.xid).to eq(1)

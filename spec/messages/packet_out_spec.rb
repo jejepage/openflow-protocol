@@ -1,4 +1,4 @@
-describe OpenFlow::Protocol::PacketOut do
+describe PacketOut do
   let(:data) {
     [
       1, 13, 0, 26, 0, 0, 0, 1, # header
@@ -16,8 +16,8 @@ describe OpenFlow::Protocol::PacketOut do
   }
 
   it 'should read binary' do
-    msg = OpenFlow::Protocol::PacketOut.read(data)
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = PacketOut.read(data)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:packet_out)
     expect(msg.len).to eq(26)
     expect(msg.xid).to eq(1)
@@ -28,12 +28,12 @@ describe OpenFlow::Protocol::PacketOut do
     expect(msg.data.length).to eq(2)
   end
   it 'should be parsable' do
-    msg = OpenFlow::Protocol::Parser.read(data)
-    expect(msg.class).to eq(OpenFlow::Protocol::PacketOut)
+    msg = Parser.read(data)
+    expect(msg.class).to eq(PacketOut)
   end
   it 'should initialize with default values' do
-    msg = OpenFlow::Protocol::PacketOut.new
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    msg = PacketOut.new
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:packet_out)
     expect(msg.len).to eq(16)
     expect(msg.xid).to eq(0)
@@ -43,13 +43,13 @@ describe OpenFlow::Protocol::PacketOut do
     expect(msg.data).to be_empty
   end
   it 'should initialize with some values' do
-    msg = OpenFlow::Protocol::PacketOut.new(
+    msg = PacketOut.new(
       xid: 1,
       in_port: 1,
-      actions: [OpenFlow::Protocol::ActionOutput.new(port: 1)],
+      actions: [ActionOutput.new(port: 1)],
       data: [1, 2].pack('C*')
     )
-    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
+    expect(msg.version).to eq(Message::OFP_VERSION)
     expect(msg.type).to eq(:packet_out)
     expect(msg.len).to eq(26)
     expect(msg.xid).to eq(1)

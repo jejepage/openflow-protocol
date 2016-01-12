@@ -1,6 +1,6 @@
-describe OpenFlow::Protocol::Match do
+describe Match do
   it 'should read binary' do
-    match = OpenFlow::Protocol::Match.read [
+    match = Match.read [
       0, 0x30, 0x20, 0x4f, # wildcards
       0, 0,                # in_port
       0, 0, 0, 0, 0, 0,    # mac_source
@@ -41,8 +41,8 @@ describe OpenFlow::Protocol::Match do
     expect(match.destination_port).to eq(3000)
   end
   it 'should initialize with default values' do
-    match = OpenFlow::Protocol::Match.new
-    expect(match.wildcards).to eq(OpenFlow::Protocol::Match::Wildcards::ALL_FLAGS)
+    match = Match.new
+    expect(match.wildcards).to eq(Match::Wildcards::ALL_FLAGS)
     expect(match.in_port).to eq(0)
     expect(match.mac_source).to eq('00:00:00:00:00:00')
     expect(match.mac_destination).to eq('00:00:00:00:00:00')
@@ -57,7 +57,7 @@ describe OpenFlow::Protocol::Match do
     expect(match.destination_port).to eq(0)
   end
   it 'should initialize with some values' do
-    match = OpenFlow::Protocol::Match.new(
+    match = Match.new(
       wildcards: {
         in_port: true,
         mac_source: true,
@@ -99,7 +99,7 @@ describe OpenFlow::Protocol::Match do
     expect(match.destination_port).to eq(3000)
   end
   it 'should initialize with wildcards as array' do
-    match = OpenFlow::Protocol::Match.new(
+    match = Match.new(
       wildcards: [:in_port, :mac_source, :mac_destination]
     )
     expect(match.wildcards).to eq(
@@ -109,7 +109,7 @@ describe OpenFlow::Protocol::Match do
     )
   end
   it 'should initialize wildcards based on matching values given' do
-    match = OpenFlow::Protocol::Match.create(
+    match = Match.create(
       mac_source: '00:00:00:00:00:01',
       mac_destination: '00:00:00:00:00:02',
       mac_protocol: :ipv4,

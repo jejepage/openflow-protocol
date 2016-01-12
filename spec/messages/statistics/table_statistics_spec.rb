@@ -1,6 +1,6 @@
-describe OpenFlow::Protocol::TableStatistics do
+describe TableStatistics do
   it 'should read binary' do
-    stats = OpenFlow::Protocol::TableStatistics.read [
+    stats = TableStatistics.read [
       1,                                # table_id
       0, 0, 0,                          # padding
       116, 97, 98, 108, 101, 45, 49, 0, # name
@@ -22,7 +22,7 @@ describe OpenFlow::Protocol::TableStatistics do
     expect(stats.matched_count).to eq(1)
   end
   it 'should initialize with default values' do
-    stats = OpenFlow::Protocol::TableStatistics.new
+    stats = TableStatistics.new
     expect(stats.table_id).to eq(0)
     expect(stats.name).to eq('')
     expect(stats.wildcards).to be_empty
@@ -32,7 +32,7 @@ describe OpenFlow::Protocol::TableStatistics do
     expect(stats.matched_count).to eq(0)
   end
   it 'should initialize with some values' do
-    stats = OpenFlow::Protocol::TableStatistics.new(
+    stats = TableStatistics.new(
       table_id: 1,
       name: 'table-1',
       wildcards: [:in_port, :ip_source_all, :ip_destination_all],

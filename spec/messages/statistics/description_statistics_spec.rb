@@ -1,4 +1,4 @@
-describe OpenFlow::Protocol::DescriptionStatistics do
+describe DescriptionStatistics do
   let(:desc) {
     'Manufacturer description'.pad(256) +
     'Hardware description'.pad(256) +
@@ -8,7 +8,7 @@ describe OpenFlow::Protocol::DescriptionStatistics do
   }
 
   it 'should read binary' do
-    stats = OpenFlow::Protocol::DescriptionStatistics.read(desc)
+    stats = DescriptionStatistics.read(desc)
     expect(stats.manufacturer_description).to eq('Manufacturer description')
     expect(stats.hardware_description).to eq('Hardware description')
     expect(stats.software_description).to eq('Software description')
@@ -16,7 +16,7 @@ describe OpenFlow::Protocol::DescriptionStatistics do
     expect(stats.datapath_description).to eq('Datapath description')
   end
   it 'should initialize with default values' do
-    stats = OpenFlow::Protocol::DescriptionStatistics.new
+    stats = DescriptionStatistics.new
     expect(stats.manufacturer_description).to eq('')
     expect(stats.hardware_description).to eq('')
     expect(stats.software_description).to eq('')
@@ -24,7 +24,7 @@ describe OpenFlow::Protocol::DescriptionStatistics do
     expect(stats.datapath_description).to eq('')
   end
   it 'should initialize with some values' do
-    stats = OpenFlow::Protocol::DescriptionStatistics.new(
+    stats = DescriptionStatistics.new(
       manufacturer_description: 'Manufacturer description',
       hardware_description: 'Hardware description',
       software_description: 'Software description',

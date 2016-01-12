@@ -1,6 +1,6 @@
-describe OpenFlow::Protocol::ActionOutput do
+describe ActionOutput do
   it 'should read binary' do
-    action = OpenFlow::Protocol::ActionOutput.read [
+    action = ActionOutput.read [
       0, 0, 0, 8, # header
       0, 1,       # port
       0xff, 0xff  # max_length
@@ -11,14 +11,14 @@ describe OpenFlow::Protocol::ActionOutput do
     expect(action.max_length).to eq(0xffff)
   end
   it 'should initialize with default values' do
-    action = OpenFlow::Protocol::ActionOutput.new
+    action = ActionOutput.new
     expect(action.type).to eq(:output)
     expect(action.len).to eq(8)
     expect(action.port).to eq(:none)
     expect(action.max_length).to eq(0xffff)
   end
   it 'should initialize with some values' do
-    action = OpenFlow::Protocol::ActionOutput.new(port: 1)
+    action = ActionOutput.new(port: 1)
     expect(action.type).to eq(:output)
     expect(action.len).to eq(8)
     expect(action.port).to eq(1)

@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFMatch do
+describe OpenFlow::Protocol::Match do
   it 'should read binary' do
-    match = OFMatch.read [
+    match = OpenFlow::Protocol::Match.read [
       0, 0x30, 0x20, 0x4f, # wildcards
       0, 0,                # in_port
       0, 0, 0, 0, 0, 0,    # mac_source
@@ -43,8 +41,8 @@ describe OFMatch do
     expect(match.destination_port).to eq(3000)
   end
   it 'should initialize with default values' do
-    match = OFMatch.new
-    expect(match.wildcards).to eq(OFMatch::Wildcards::ALL_FLAGS)
+    match = OpenFlow::Protocol::Match.new
+    expect(match.wildcards).to eq(OpenFlow::Protocol::Match::Wildcards::ALL_FLAGS)
     expect(match.in_port).to eq(0)
     expect(match.mac_source).to eq('00:00:00:00:00:00')
     expect(match.mac_destination).to eq('00:00:00:00:00:00')
@@ -59,7 +57,7 @@ describe OFMatch do
     expect(match.destination_port).to eq(0)
   end
   it 'should initialize with some values' do
-    match = OFMatch.new(
+    match = OpenFlow::Protocol::Match.new(
       wildcards: {
         in_port: true,
         mac_source: true,
@@ -101,7 +99,7 @@ describe OFMatch do
     expect(match.destination_port).to eq(3000)
   end
   it 'should initialize with wildcards as array' do
-    match = OFMatch.new(
+    match = OpenFlow::Protocol::Match.new(
       wildcards: [:in_port, :mac_source, :mac_destination]
     )
     expect(match.wildcards).to eq(
@@ -111,7 +109,7 @@ describe OFMatch do
     )
   end
   it 'should initialize wildcards based on matching values given' do
-    match = OFMatch.create(
+    match = OpenFlow::Protocol::Match.create(
       mac_source: '00:00:00:00:00:01',
       mac_destination: '00:00:00:00:00:02',
       mac_protocol: :ipv4,

@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFFlowStatisticsReply do
+describe OpenFlow::Protocol::FlowStatisticsReply do
   it 'should read binary' do
-    stats = OFFlowStatisticsReply.read [
+    stats = OpenFlow::Protocol::FlowStatisticsReply.read [
       0, 96, # len
       1,     # table_id
       0,     # padding
@@ -53,7 +51,7 @@ describe OFFlowStatisticsReply do
     expect(stats.actions.length).to eq(1)
   end
   it 'should initialize with default values' do
-    stats = OFFlowStatisticsReply.new
+    stats = OpenFlow::Protocol::FlowStatisticsReply.new
     expect(stats.len).to eq(88)
     expect(stats.table_id).to eq(:all)
     expect(stats.match.ip_destination).to eq('0.0.0.0')
@@ -67,7 +65,7 @@ describe OFFlowStatisticsReply do
     expect(stats.actions).to be_empty
   end
   it 'should initialize with some values' do
-    stats = OFFlowStatisticsReply.new(
+    stats = OpenFlow::Protocol::FlowStatisticsReply.new(
     )
 
   end

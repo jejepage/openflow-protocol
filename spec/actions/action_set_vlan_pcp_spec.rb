@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFActionSetVlanPcp do
+describe OpenFlow::Protocol::ActionSetVlanPcp do
   it 'should read binary' do
-    action = OFActionSetVlanPcp.read [
+    action = OpenFlow::Protocol::ActionSetVlanPcp.read [
       0, 2, 0, 8, # header
       1,          # vlan_pcp
       0, 0, 0     # padding
@@ -12,13 +10,13 @@ describe OFActionSetVlanPcp do
     expect(action.vlan_pcp).to eq(1)
   end
   it 'should initialize with default values' do
-    action = OFActionSetVlanPcp.new
+    action = OpenFlow::Protocol::ActionSetVlanPcp.new
     expect(action.type).to eq(:set_vlan_pcp)
     expect(action.len).to eq(8)
     expect(action.vlan_pcp).to eq(0)
   end
   it 'should initialize with some values' do
-    action = OFActionSetVlanPcp.new(vlan_pcp: 1)
+    action = OpenFlow::Protocol::ActionSetVlanPcp.new(vlan_pcp: 1)
     expect(action.type).to eq(:set_vlan_pcp)
     expect(action.len).to eq(8)
     expect(action.vlan_pcp).to eq(1)

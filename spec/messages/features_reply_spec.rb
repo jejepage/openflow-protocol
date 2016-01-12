@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe OFFeaturesReply do
+describe OpenFlow::Protocol::FeaturesReply do
   let(:data) {
     [
       1, 6, 0, 128, 0, 0, 0, 1, # header
@@ -90,8 +88,8 @@ describe OFFeaturesReply do
   }
 
   it 'should read binary' do
-    msg = OFFeaturesReply.read(data)
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::FeaturesReply.read(data)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:features_reply)
     expect(msg.len).to eq(128)
     expect(msg.xid).to eq(1)
@@ -127,16 +125,16 @@ describe OFFeaturesReply do
     expect(msg.ports[1].port_number).to eq(2)
   end
   it 'should be parsable' do
-    msg = OFParser.read(data)
-    expect(msg.class).to eq(OFFeaturesReply)
+    msg = OpenFlow::Protocol::Parser.read(data)
+    expect(msg.class).to eq(OpenFlow::Protocol::FeaturesReply)
   end
   it 'should read a real binary message' do
-    msg = OFFeaturesReply.read(real_data)
+    msg = OpenFlow::Protocol::FeaturesReply.read(real_data)
     expect(msg.ports.length).to eq(3)
   end
   it 'should initialize with default values' do
-    msg = OFFeaturesReply.new
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::FeaturesReply.new
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:features_reply)
     expect(msg.len).to eq(32)
     expect(msg.xid).to eq(0)
@@ -148,7 +146,7 @@ describe OFFeaturesReply do
     expect(msg.ports).to be_empty
   end
   it 'should initialize with some values' do
-    msg = OFFeaturesReply.new(
+    msg = OpenFlow::Protocol::FeaturesReply.new(
       xid: 1,
       datapath_id: 42,
       n_buffers: 10,
@@ -177,9 +175,9 @@ describe OFFeaturesReply do
         :set_tp_dst,
         :enqueue
       ],
-      ports: [OFPhysicalPort.new]
+      ports: [OpenFlow::Protocol::PhysicalPort.new]
     )
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:features_reply)
     expect(msg.len).to eq(80)
     expect(msg.xid).to eq(1)

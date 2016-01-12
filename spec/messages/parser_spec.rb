@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe OFParser do
+describe OpenFlow::Protocol::Parser do
   let(:hello_msg) { [1, 0, 0, 8, 0, 0, 0, 1].pack('C*') }
   let(:packet_out_msg) {
     [
@@ -19,18 +17,18 @@ describe OFParser do
   }
 
   it 'should read binary Hello Message' do
-    msg = OFParser.read(hello_msg)
-    expect(msg.class).to be(OFHello)
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::Parser.read(hello_msg)
+    expect(msg.class).to be(OpenFlow::Protocol::Hello)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:hello)
     expect(msg.len).to eq(8)
     expect(msg.xid).to eq(1)
   end
 
   it 'should read binary PacketOut Message' do
-    msg = OFParser.read(packet_out_msg)
-    expect(msg.class).to be(OFPacketOut)
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::Parser.read(packet_out_msg)
+    expect(msg.class).to be(OpenFlow::Protocol::PacketOut)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:packet_out)
     expect(msg.len).to eq(26)
     expect(msg.xid).to eq(1)

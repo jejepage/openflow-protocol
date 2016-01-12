@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe OFFlowMod do
+describe OpenFlow::Protocol::FlowMod do
   let(:data) {
     [
       1, 14, 0, 80, 0, 0, 0, 1, # header
@@ -40,8 +38,8 @@ describe OFFlowMod do
   }
 
   it 'should read binary' do
-    msg = OFFlowMod.read(data)
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::FlowMod.read(data)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:flow_mod)
     expect(msg.len).to eq(80)
     expect(msg.xid).to eq(1)
@@ -58,12 +56,12 @@ describe OFFlowMod do
     expect(msg.actions.first.type).to eq(:output)
   end
   it 'should be parsable' do
-    msg = OFParser.read(data)
-    expect(msg.class).to eq(OFFlowMod)
+    msg = OpenFlow::Protocol::Parser.read(data)
+    expect(msg.class).to eq(OpenFlow::Protocol::FlowMod)
   end
   it 'should initialize with default values' do
-    msg = OFFlowMod.new
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::FlowMod.new
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:flow_mod)
     expect(msg.len).to eq(72)
     expect(msg.xid).to eq(0)
@@ -79,7 +77,7 @@ describe OFFlowMod do
     expect(msg.actions).to be_empty
   end
   it 'should initialize with some values' do
-    msg = OFFlowMod.new(
+    msg = OpenFlow::Protocol::FlowMod.new(
       xid: 1,
       match: {
         wildcards: {
@@ -105,9 +103,9 @@ describe OFFlowMod do
       priority: 3000,
       buffer_id: 1,
       flags: [:send_flow_removed],
-      actions: [OFActionOutput.new(port: 1)]
+      actions: [OpenFlow::Protocol::ActionOutput.new(port: 1)]
     )
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:flow_mod)
     expect(msg.len).to eq(80)
     expect(msg.xid).to eq(1)
@@ -124,12 +122,12 @@ describe OFFlowMod do
     expect(msg.actions.first.type).to eq(:output)
   end
   it 'should initialize with some other values' do
-    msg = OFFlowMod.new(
+    msg = OpenFlow::Protocol::FlowMod.new(
       xid: 1,
       cookie: 2,
       command: :delete
     )
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:flow_mod)
     expect(msg.len).to eq(72)
     expect(msg.xid).to eq(1)

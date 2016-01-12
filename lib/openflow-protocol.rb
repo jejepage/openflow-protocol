@@ -1,1 +1,2 @@
-require_relative 'messages/parser'
+require 'openflow-protocol/version'
+require 'openflow-protocol/messages/parser'

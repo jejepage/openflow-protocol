@@ -1,4 +1,5 @@
-require_relative 'lib/openflow-protocol/version'
+$LOAD_PATH.unshift File.expand_path('../lib', __FILE__)
+require 'openflow-protocol/version'
 
 Gem::Specification.new do |s|
   s.name         = 'openflow-protocol'
@@ -17,5 +18,6 @@ Gem::Specification.new do |s|
   s.license      = 'MIT'
 
   s.add_runtime_dependency 'packet-protocols', '0.1.2'
+  s.add_development_dependency 'rake', '~> 10.4'
   s.add_development_dependency 'rspec', '~> 3.2'
 end

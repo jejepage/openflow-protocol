@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFActionSetSourcePort do
+describe OpenFlow::Protocol::ActionSetSourcePort do
   it 'should read binary' do
-    action = OFActionSetSourcePort.read [
+    action = OpenFlow::Protocol::ActionSetSourcePort.read [
       0, 9, 0, 8, # header
       0, 1,       # port
       0, 0        # padding
@@ -12,13 +10,13 @@ describe OFActionSetSourcePort do
     expect(action.port).to eq(1)
   end
   it 'should initialize with default values' do
-    action = OFActionSetSourcePort.new
+    action = OpenFlow::Protocol::ActionSetSourcePort.new
     expect(action.type).to eq(:set_source_port)
     expect(action.len).to eq(8)
     expect(action.port).to eq(0)
   end
   it 'should initialize with some values' do
-    action = OFActionSetSourcePort.new(port: 1)
+    action = OpenFlow::Protocol::ActionSetSourcePort.new(port: 1)
     expect(action.type).to eq(:set_source_port)
     expect(action.len).to eq(8)
     expect(action.port).to eq(1)

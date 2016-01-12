@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFQueueStatisticsReply do
+describe OpenFlow::Protocol::QueueStatisticsReply do
   it 'should read binary' do
-    stats = OFQueueStatisticsReply.read [
+    stats = OpenFlow::Protocol::QueueStatisticsReply.read [
       0, 1,                    # port_number
       0, 0,                    # padding
       0, 0, 0, 1,              # queue_id
@@ -17,7 +15,7 @@ describe OFQueueStatisticsReply do
     expect(stats.transmit_errors).to eq(2)
   end
   it 'should initialize with default values' do
-    stats = OFQueueStatisticsReply.new
+    stats = OpenFlow::Protocol::QueueStatisticsReply.new
     expect(stats.port_number).to eq(0)
     # expect(stats.queue_id).to eq(:all)
     # TODO: QUEUE_IDS somewhere!
@@ -26,7 +24,7 @@ describe OFQueueStatisticsReply do
     expect(stats.transmit_errors).to eq(0)
   end
   it 'should initialize with some values' do
-    stats = OFQueueStatisticsReply.new(
+    stats = OpenFlow::Protocol::QueueStatisticsReply.new(
       port_number: 1,
       queue_id: 1,
       transmit_bytes: 80,

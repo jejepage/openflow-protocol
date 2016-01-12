@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe OFGetConfigReply do
+describe OpenFlow::Protocol::GetConfigReply do
   let(:data) {
     [
       1, 8, 0, 12, 0, 0, 0, 1, # header
@@ -10,8 +8,8 @@ describe OFGetConfigReply do
   }
 
   it 'should read binary' do
-    msg = OFGetConfigReply.read(data)
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::GetConfigReply.read(data)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:get_config_reply)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(1)
@@ -19,12 +17,12 @@ describe OFGetConfigReply do
     expect(msg.miss_send_length).to eq(0xff)
   end
   it 'should be parsable' do
-    msg = OFParser.read(data)
-    expect(msg.class).to eq(OFGetConfigReply)
+    msg = OpenFlow::Protocol::Parser.read(data)
+    expect(msg.class).to eq(OpenFlow::Protocol::GetConfigReply)
   end
   it 'should initialize with default values' do
-    msg = OFGetConfigReply.new
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::GetConfigReply.new
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:get_config_reply)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(0)
@@ -32,12 +30,12 @@ describe OFGetConfigReply do
     expect(msg.miss_send_length).to eq(0)
   end
   it 'should initialize with some values' do
-    msg = OFGetConfigReply.new(
+    msg = OpenFlow::Protocol::GetConfigReply.new(
       xid: 1,
       flags: :fragments_normal,
       miss_send_length: 0xff
     )
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:get_config_reply)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(1)

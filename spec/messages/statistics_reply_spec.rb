@@ -1,11 +1,9 @@
-require 'spec_helper'
-
-describe OFStatisticsReply do
+describe OpenFlow::Protocol::StatisticsReply do
   context 'with description' do
     let(:desc) {
       'Manufacturer description'.pad(256) +
       'Hardware description'.pad(256) +
-      'Software description'.pad(256) +
+      'SOpenFlow::Protocol::tware description'.pad(256) +
       '123456789'.pad(32) +
       'Datapath description'.pad(256)
     }
@@ -18,8 +16,8 @@ describe OFStatisticsReply do
     }
 
     it 'should read binary' do
-      msg = OFStatisticsReply.read(data)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.read(data)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(1068)
       expect(msg.xid).to eq(1)
@@ -28,12 +26,12 @@ describe OFStatisticsReply do
       expect(msg.statistics.serial_number).to eq('123456789')
     end
     it 'should be parsable' do
-      msg = OFParser.read(data)
-      expect(msg.class).to eq(OFStatisticsReply)
+      msg = OpenFlow::Protocol::Parser.read(data)
+      expect(msg.class).to eq(OpenFlow::Protocol::StatisticsReply)
     end
     it 'should initialize with default values' do
-      msg = OFStatisticsReply.new
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.new
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(1068)
       expect(msg.xid).to eq(0)
@@ -42,7 +40,7 @@ describe OFStatisticsReply do
       expect(msg.statistics.serial_number).to eq('')
     end
     it 'should initialize with some values' do
-      msg = OFStatisticsReply.new(
+      msg = OpenFlow::Protocol::StatisticsReply.new(
         xid: 1,
         statistic_type: :description,
         flags: [:reply_more],
@@ -50,7 +48,7 @@ describe OFStatisticsReply do
           serial_number: '123456789'
         }
       )
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(1068)
       expect(msg.xid).to eq(1)
@@ -108,8 +106,8 @@ describe OFStatisticsReply do
     }
 
     it 'should read binary' do
-      msg = OFStatisticsReply.read(data)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.read(data)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(108)
       expect(msg.xid).to eq(1)
@@ -119,12 +117,12 @@ describe OFStatisticsReply do
       expect(msg.statistics.actions.length).to eq(1)
     end
     it 'should be parsable' do
-      msg = OFParser.read(data)
-      expect(msg.class).to eq(OFStatisticsReply)
+      msg = OpenFlow::Protocol::Parser.read(data)
+      expect(msg.class).to eq(OpenFlow::Protocol::StatisticsReply)
     end
     it 'should initialize with default values' do
-      msg = OFStatisticsReply.new(statistic_type: :flow)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.new(statistic_type: :flow)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(100)
       expect(msg.xid).to eq(0)
@@ -134,16 +132,16 @@ describe OFStatisticsReply do
       expect(msg.statistics.actions).to be_empty
     end
     it 'should initialize with some values' do
-      msg = OFStatisticsReply.new(
+      msg = OpenFlow::Protocol::StatisticsReply.new(
         xid: 1,
         statistic_type: :flow,
         flags: [:reply_more],
         statistics: {
           table_id: 1,
-          actions: [OFActionOutput.new(port: 1)]
+          actions: [OpenFlow::Protocol::ActionOutput.new(port: 1)]
         }
       )
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(108)
       expect(msg.xid).to eq(1)
@@ -170,8 +168,8 @@ describe OFStatisticsReply do
     }
 
     it 'should read binary' do
-      msg = OFStatisticsReply.read(data)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.read(data)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(36)
       expect(msg.xid).to eq(1)
@@ -180,8 +178,8 @@ describe OFStatisticsReply do
       expect(msg.statistics.packet_count).to eq(10)
     end
     it 'should initialize with default values' do
-      msg = OFStatisticsReply.new(statistic_type: :aggregate)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.new(statistic_type: :aggregate)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(36)
       expect(msg.xid).to eq(0)
@@ -190,11 +188,11 @@ describe OFStatisticsReply do
       expect(msg.statistics.packet_count).to eq(0)
     end
     it 'should be parsable' do
-      msg = OFParser.read(data)
-      expect(msg.class).to eq(OFStatisticsReply)
+      msg = OpenFlow::Protocol::Parser.read(data)
+      expect(msg.class).to eq(OpenFlow::Protocol::StatisticsReply)
     end
     it 'should initialize with some values' do
-      msg = OFStatisticsReply.new(
+      msg = OpenFlow::Protocol::StatisticsReply.new(
         xid: 1,
         statistic_type: :aggregate,
         flags: [:reply_more],
@@ -204,7 +202,7 @@ describe OFStatisticsReply do
           flow_count: 4
         }
       )
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(36)
       expect(msg.xid).to eq(1)
@@ -221,7 +219,7 @@ describe OFStatisticsReply do
         0, 3,                     # statistic_type
         0, 1,                     # flags
 
-        # array of table_statistics
+        # array OpenFlow::Protocol:: table_statistics
         1,                                # table_id
         0, 0, 0,                          # padding
         116, 97, 98, 108, 101, 45, 49, 0, # name
@@ -237,8 +235,8 @@ describe OFStatisticsReply do
     }
 
     it 'should read binary' do
-      msg = OFStatisticsReply.read(data)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.read(data)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(76)
       expect(msg.xid).to eq(1)
@@ -248,12 +246,12 @@ describe OFStatisticsReply do
       expect(msg.statistics.first.table_id).to eq(1)
     end
     it 'should be parsable' do
-      msg = OFParser.read(data)
-      expect(msg.class).to eq(OFStatisticsReply)
+      msg = OpenFlow::Protocol::Parser.read(data)
+      expect(msg.class).to eq(OpenFlow::Protocol::StatisticsReply)
     end
     it 'should initialize with default values' do
-      msg = OFStatisticsReply.new(statistic_type: :table)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.new(statistic_type: :table)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(12)
       expect(msg.xid).to eq(0)
@@ -262,13 +260,13 @@ describe OFStatisticsReply do
       expect(msg.statistics).to be_empty
     end
     it 'should initialize with some values' do
-      msg = OFStatisticsReply.new(
+      msg = OpenFlow::Protocol::StatisticsReply.new(
         xid: 1,
         statistic_type: :table,
         flags: [:reply_more],
         statistics: [{table_id: 1}]
       )
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(76)
       expect(msg.xid).to eq(1)
@@ -286,7 +284,7 @@ describe OFStatisticsReply do
         0, 4,                      # statistic_type
         0, 1,                      # flags
 
-        # array of port_statistics_reply
+        # array OpenFlow::Protocol:: port_statistics_reply
         0, 1,                    # port_number
         0, 0, 0, 0, 0, 0,        # padding
         0, 0, 0, 0, 0, 0, 0, 10, # receive_packets
@@ -305,8 +303,8 @@ describe OFStatisticsReply do
     }
 
     it 'should read binary' do
-      msg = OFStatisticsReply.read(data)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.read(data)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(116)
       expect(msg.xid).to eq(1)
@@ -316,12 +314,12 @@ describe OFStatisticsReply do
       expect(msg.statistics.first.port_number).to eq(1)
     end
     it 'should be parsable' do
-      msg = OFParser.read(data)
-      expect(msg.class).to eq(OFStatisticsReply)
+      msg = OpenFlow::Protocol::Parser.read(data)
+      expect(msg.class).to eq(OpenFlow::Protocol::StatisticsReply)
     end
     it 'should initialize with default values' do
-      msg = OFStatisticsReply.new(statistic_type: :port)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.new(statistic_type: :port)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(12)
       expect(msg.xid).to eq(0)
@@ -330,13 +328,13 @@ describe OFStatisticsReply do
       expect(msg.statistics).to be_empty
     end
     it 'should initialize with some values' do
-      msg = OFStatisticsReply.new(
+      msg = OpenFlow::Protocol::StatisticsReply.new(
         xid: 1,
         statistic_type: :port,
         flags: [:reply_more],
         statistics: [{port_number: 1}]
       )
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(116)
       expect(msg.xid).to eq(1)
@@ -354,7 +352,7 @@ describe OFStatisticsReply do
         0, 5,                     # statistic_type
         0, 1,                     # flags
 
-        # array of queue_statistics_reply
+        # array OpenFlow::Protocol:: queue_statistics_reply
         0, 1,                    # port_number
         0, 0,                    # padding
         0, 0, 0, 1,              # queue_id
@@ -365,8 +363,8 @@ describe OFStatisticsReply do
     }
 
     it 'should read binary' do
-      msg = OFStatisticsReply.read(data)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.read(data)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(44)
       expect(msg.xid).to eq(1)
@@ -376,12 +374,12 @@ describe OFStatisticsReply do
       expect(msg.statistics.first.port_number).to eq(1)
     end
     it 'should be parsable' do
-      msg = OFParser.read(data)
-      expect(msg.class).to eq(OFStatisticsReply)
+      msg = OpenFlow::Protocol::Parser.read(data)
+      expect(msg.class).to eq(OpenFlow::Protocol::StatisticsReply)
     end
     it 'should initialize with default values' do
-      msg = OFStatisticsReply.new(statistic_type: :queue)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.new(statistic_type: :queue)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(12)
       expect(msg.xid).to eq(0)
@@ -390,13 +388,13 @@ describe OFStatisticsReply do
       expect(msg.statistics).to be_empty
     end
     it 'should initialize with some values' do
-      msg = OFStatisticsReply.new(
+      msg = OpenFlow::Protocol::StatisticsReply.new(
         xid: 1,
         statistic_type: :queue,
         flags: [:reply_more],
         statistics: [{port_number: 1}]
       )
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(44)
       expect(msg.xid).to eq(1)
@@ -421,8 +419,8 @@ describe OFStatisticsReply do
     }
 
     it 'should read binary' do
-      msg = OFStatisticsReply.read(data)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.read(data)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(20)
       expect(msg.xid).to eq(1)
@@ -432,12 +430,12 @@ describe OFStatisticsReply do
       expect(msg.statistics.body).to eq([1, 2, 3, 4].pack('C*'))
     end
     it 'should be parsable' do
-      msg = OFParser.read(data)
-      expect(msg.class).to eq(OFStatisticsReply)
+      msg = OpenFlow::Protocol::Parser.read(data)
+      expect(msg.class).to eq(OpenFlow::Protocol::StatisticsReply)
     end
     it 'should initialize with default values' do
-      msg = OFStatisticsReply.new(statistic_type: :vendor)
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      msg = OpenFlow::Protocol::StatisticsReply.new(statistic_type: :vendor)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(16)
       expect(msg.xid).to eq(0)
@@ -447,7 +445,7 @@ describe OFStatisticsReply do
       expect(msg.statistics.body).to be_empty
     end
     it 'should initialize with some values' do
-      msg = OFStatisticsReply.new(
+      msg = OpenFlow::Protocol::StatisticsReply.new(
         xid: 1,
         statistic_type: :vendor,
         statistics: {
@@ -455,7 +453,7 @@ describe OFStatisticsReply do
           body: [1, 2, 3, 4].pack('C*')
         }
       )
-      expect(msg.version).to eq(OFMessage::OFP_VERSION)
+      expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
       expect(msg.type).to eq(:statistics_reply)
       expect(msg.len).to eq(20)
       expect(msg.xid).to eq(1)

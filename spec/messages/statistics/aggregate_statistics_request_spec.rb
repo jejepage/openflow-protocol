@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFAggregateStatisticsRequest do
+describe OpenFlow::Protocol::AggregateStatisticsRequest do
   it 'should read binary' do
-    stats = OFAggregateStatisticsRequest.read [
+    stats = OpenFlow::Protocol::AggregateStatisticsRequest.read [
       # match
       0, 0x30, 0x20, 0x4f, # wildcards
       0, 0,                # in_port
@@ -29,13 +27,13 @@ describe OFAggregateStatisticsRequest do
     expect(stats.out_port).to eq(1)
   end
   it 'should initialize with default values' do
-    stats = OFAggregateStatisticsRequest.new
+    stats = OpenFlow::Protocol::AggregateStatisticsRequest.new
     expect(stats.match.ip_destination).to eq('0.0.0.0')
     expect(stats.table_id).to eq(:all)
     expect(stats.out_port).to eq(:none)
   end
   it 'should initialize with some values' do
-    stats = OFAggregateStatisticsRequest.new(
+    stats = OpenFlow::Protocol::AggregateStatisticsRequest.new(
       table_id: 1,
       out_port: 1
     )

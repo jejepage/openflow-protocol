@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFActionStripVlan do
+describe OpenFlow::Protocol::ActionStripVlan do
   it 'should read binary' do
-    action = OFActionStripVlan.read [
+    action = OpenFlow::Protocol::ActionStripVlan.read [
       0, 3, 0, 8, # header
       0, 0, 0, 0  # padding
     ].pack('C*')
@@ -10,7 +8,7 @@ describe OFActionStripVlan do
     expect(action.len).to eq(8)
   end
   it 'should initialize with default values' do
-    action = OFActionStripVlan.new
+    action = OpenFlow::Protocol::ActionStripVlan.new
     expect(action.type).to eq(:strip_vlan)
     expect(action.len).to eq(8)
   end

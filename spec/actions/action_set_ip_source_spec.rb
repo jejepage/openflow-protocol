@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFActionSetIpSource do
+describe OpenFlow::Protocol::ActionSetIpSource do
   it 'should read binary' do
-    action = OFActionSetIpSource.read [
+    action = OpenFlow::Protocol::ActionSetIpSource.read [
       0, 6, 0, 8, # header
       10, 0, 0, 1 # ip_address
     ].pack('C*')
@@ -11,13 +9,13 @@ describe OFActionSetIpSource do
     expect(action.ip_address).to eq('10.0.0.1')
   end
   it 'should initialize with default values' do
-    action = OFActionSetIpSource.new
+    action = OpenFlow::Protocol::ActionSetIpSource.new
     expect(action.type).to eq(:set_ip_source)
     expect(action.len).to eq(8)
     expect(action.ip_address).to eq('0.0.0.0')
   end
   it 'should initialize with some values' do
-    action = OFActionSetIpSource.new(ip_address: '10.0.0.1')
+    action = OpenFlow::Protocol::ActionSetIpSource.new(ip_address: '10.0.0.1')
     expect(action.type).to eq(:set_ip_source)
     expect(action.len).to eq(8)
     expect(action.ip_address).to eq('10.0.0.1')

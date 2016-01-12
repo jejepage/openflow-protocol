@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe OFVendor do
+describe OpenFlow::Protocol::Vendor do
   let(:data) {
     [
       1, 4, 0, 12, 0, 0, 0, 1, # header
@@ -9,8 +7,8 @@ describe OFVendor do
   }
 
   it 'should read binary' do
-    msg = OFVendor.read(data)
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::Vendor.read(data)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:vendor)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(1)
@@ -18,16 +16,16 @@ describe OFVendor do
     expect(msg.data).to be_empty
   end
   it 'should be parsable' do
-    msg = OFParser.read(data)
-    expect(msg.class).to eq(OFVendor)
+    msg = OpenFlow::Protocol::Parser.read(data)
+    expect(msg.class).to eq(OpenFlow::Protocol::Vendor)
   end
   it 'should read binary with data' do
-    msg = OFVendor.read [
+    msg = OpenFlow::Protocol::Vendor.read [
       1, 4, 0, 14, 0, 0, 0, 1, # header
       0, 0, 0, 1,              # vendor
       10, 20                   # data
     ].pack('C*')
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:vendor)
     expect(msg.len).to eq(14)
     expect(msg.xid).to eq(1)
@@ -35,8 +33,8 @@ describe OFVendor do
     expect(msg.data.length).to eq(2)
   end
   it 'should initialize with default values' do
-    msg = OFVendor.new
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::Vendor.new
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:vendor)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(0)
@@ -44,8 +42,8 @@ describe OFVendor do
     expect(msg.data).to be_empty
   end
   it 'should initialize with some values' do
-    msg = OFVendor.new(xid: 1, vendor: 1)
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::Vendor.new(xid: 1, vendor: 1)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:vendor)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(1)
@@ -53,8 +51,8 @@ describe OFVendor do
     expect(msg.data).to be_empty
   end
   it 'should initialize with data' do
-    msg = OFVendor.new(vendor: 1, data: [10, 20].pack('C*'))
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::Vendor.new(vendor: 1, data: [10, 20].pack('C*'))
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:vendor)
     expect(msg.len).to eq(14)
     expect(msg.xid).to eq(0)

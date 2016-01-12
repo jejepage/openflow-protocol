@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFQueueProperties do
+describe OpenFlow::Protocol::QueueProperties do
   it 'should read binary' do
-    props = OFQueueProperties.read [
+    props = OpenFlow::Protocol::QueueProperties.read [
       # none
       0, 0, 0, 8, 0, 0, 0, 0,
       # min_rate
@@ -15,12 +13,12 @@ describe OFQueueProperties do
     expect(props.last.type).to eq(:min_rate)
   end
   it 'should initialize with default values' do
-    props = OFQueueProperties.new
+    props = OpenFlow::Protocol::QueueProperties.new
     expect(props).to be_empty
   end
   it 'should initialize with some values' do
-    props = OFQueueProperties.new([
-      OFQueuePropertyMinRate.new(rate: 100)
+    props = OpenFlow::Protocol::QueueProperties.new([
+      OpenFlow::Protocol::QueuePropertyMinRate.new(rate: 100)
     ])
     expect(props.length).to eq(1)
     expect(props.first.type).to eq(:min_rate)

@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFActions do
+describe OpenFlow::Protocol::Actions do
   it 'should read binary' do
-    actions = OFActions.read [
+    actions = OpenFlow::Protocol::Actions.read [
       # output
       0, 0, 0, 8, # header
       0, 1,       # port
@@ -18,13 +16,13 @@ describe OFActions do
     expect(actions.last.type).to eq(:enqueue)
   end
   it 'should initialize with default values' do
-    actions = OFActions.new
+    actions = OpenFlow::Protocol::Actions.new
     expect(actions).to be_empty
   end
   it 'should initialize with some values' do
-    actions = OFActions.new([
-      OFActionOutput.new(port: 1, max_length: 0xffff),
-      OFActionEnqueue.new(port: 1, queue_id: 1)
+    actions = OpenFlow::Protocol::Actions.new([
+      OpenFlow::Protocol::ActionOutput.new(port: 1, max_length: 0xffff),
+      OpenFlow::Protocol::ActionEnqueue.new(port: 1, queue_id: 1)
     ])
     expect(actions.length).to eq(2)
     expect(actions.first.type).to eq(:output)

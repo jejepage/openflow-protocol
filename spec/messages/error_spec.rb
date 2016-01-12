@@ -1,6 +1,4 @@
-require 'spec_helper'
-
-describe OFError do
+describe OpenFlow::Protocol::Error do
   let(:hello_msg) {
     [1, 0, 0, 8, 0, 0, 0, 1].pack('C*')
   }
@@ -13,8 +11,8 @@ describe OFError do
   }
 
   it 'should read binary' do
-    msg = OFError.read(data)
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::Error.read(data)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:error)
     expect(msg.len).to eq(20)
     expect(msg.xid).to eq(1)
@@ -26,16 +24,16 @@ describe OFError do
     expect(hello.xid).to eq(1)
   end
   it 'should be parsable' do
-    msg = OFParser.read(data)
-    expect(msg.class).to eq(OFError)
+    msg = OpenFlow::Protocol::Parser.read(data)
+    expect(msg.class).to eq(OpenFlow::Protocol::Error)
   end
   it 'should read another binary' do
-    msg = OFError.read [
+    msg = OpenFlow::Protocol::Error.read [
       1, 1, 0, 12, 0, 0, 0, 1, # header
       0, 2,                    # type
       0, 4                     # code
     ].pack('C*')
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:error)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(1)
@@ -44,8 +42,8 @@ describe OFError do
     expect(msg.data).to be_empty
   end
   it 'should initialize with default values' do
-    msg = OFError.new
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::Error.new
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:error)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(0)
@@ -54,12 +52,12 @@ describe OFError do
     expect(msg.data).to be_empty
   end
   it 'should initialize with some values' do
-    msg = OFError.new(
+    msg = OpenFlow::Protocol::Error.new(
       xid: 1,
       error_type: :port_mod_failed,
       error_code: :bad_port
     )
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:error)
     expect(msg.len).to eq(12)
     expect(msg.xid).to eq(1)

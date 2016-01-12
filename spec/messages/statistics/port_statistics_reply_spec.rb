@@ -1,8 +1,6 @@
-require 'spec_helper'
-
-describe OFPortStatisticsReply do
+describe OpenFlow::Protocol::PortStatisticsReply do
   it 'should read binary' do
-    stats = OFPortStatisticsReply.read [
+    stats = OpenFlow::Protocol::PortStatisticsReply.read [
       0, 1,                    # port_number
       0, 0, 0, 0, 0, 0,        # padding
       0, 0, 0, 0, 0, 0, 0, 10, # receive_packets
@@ -33,7 +31,7 @@ describe OFPortStatisticsReply do
     expect(stats.collisions).to eq(3)
   end
   it 'should initialize with default values' do
-    stats = OFPortStatisticsReply.new
+    stats = OpenFlow::Protocol::PortStatisticsReply.new
     expect(stats.port_number).to eq(0)
     expect(stats.receive_packets).to eq(0)
     expect(stats.transmit_packets).to eq(0)
@@ -49,7 +47,7 @@ describe OFPortStatisticsReply do
     expect(stats.collisions).to eq(0)
   end
   it 'should initialize with some values' do
-    stats = OFPortStatisticsReply.new(
+    stats = OpenFlow::Protocol::PortStatisticsReply.new(
       port_number: 1,
       receive_packets: 10,
       transmit_packets: 10,

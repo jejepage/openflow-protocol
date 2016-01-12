@@ -1,29 +1,27 @@
-require 'spec_helper'
-
-describe OFGetConfigRequest do
+describe OpenFlow::Protocol::GetConfigRequest do
   let(:data) { [1, 7, 0, 8, 0, 0, 0, 1].pack('C*') }
 
   it 'should read binary' do
-    msg = OFGetConfigRequest.read(data)
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::GetConfigRequest.read(data)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:get_config_request)
     expect(msg.len).to eq(8)
     expect(msg.xid).to eq(1)
   end
   it 'should be parsable' do
-    msg = OFParser.read(data)
-    expect(msg.class).to eq(OFGetConfigRequest)
+    msg = OpenFlow::Protocol::Parser.read(data)
+    expect(msg.class).to eq(OpenFlow::Protocol::GetConfigRequest)
   end
   it 'should initialize with default values' do
-    msg = OFGetConfigRequest.new
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::GetConfigRequest.new
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:get_config_request)
     expect(msg.len).to eq(8)
     expect(msg.xid).to eq(0)
   end
   it 'should initialize with some values' do
-    msg = OFGetConfigRequest.new(xid: 1)
-    expect(msg.version).to eq(OFMessage::OFP_VERSION)
+    msg = OpenFlow::Protocol::GetConfigRequest.new(xid: 1)
+    expect(msg.version).to eq(OpenFlow::Protocol::Message::OFP_VERSION)
     expect(msg.type).to eq(:get_config_request)
     expect(msg.len).to eq(8)
     expect(msg.xid).to eq(1)

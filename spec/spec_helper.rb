@@ -1,4 +1,6 @@
 require 'openflow-protocol'
+require 'coveralls'
+Coveralls.wear!
 
 include OpenFlow::Protocol
 
